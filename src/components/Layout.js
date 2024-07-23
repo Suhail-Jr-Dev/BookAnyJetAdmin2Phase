@@ -40,7 +40,7 @@ const Layout = ({ children }) => {
                   to={"/dashboard"}
                   className="px-4 py-2 hover:bg-gray-700 flex items-center"
                 >
-                  <MdDashboard className="mr-0.5" />
+                  <MdDashboard className="m-2" />
                   Dashboard
                 </Link>
               </li>
@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
                 >
 
                   <div className="flex items-center justify-center">
-                    <MdOutlineCategory className="m-1"/>
+                    <MdOutlineCategory className="m-2"/>
                     Category
                   </div>
 
@@ -61,7 +61,7 @@ const Layout = ({ children }) => {
                   className={`transition-all duration-300 ease-in-out overflow-hidden ${isCategoryOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
                     } space-y-2 pl-4`}
                 >
-                  <li>
+                  <li className="ml-6">
                     <Link
                       to={"/charters"}
                       className="block px-4 py-2 hover:bg-gray-700"
@@ -69,7 +69,7 @@ const Layout = ({ children }) => {
                       Charters
                     </Link>
                   </li>
-                  <li>
+                  <li className=" ml-6">
                     <Link
                       to={"/emptylegs"}
                       className="block px-4 py-2 hover:bg-gray-700"

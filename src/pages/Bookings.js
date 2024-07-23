@@ -1,29 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { Button, Space, Table } from 'antd';
+import { Button, Space, Table, message } from 'antd';
 import axios from 'axios';
 
 const Bookings = () => {
     let [data, setData] = useState([]);
 
+    const deleteHandler = async (id) => {
+        try {
+            let URL = `http://localhost:8000/api/admin/deletebookingbyid/${id}`;
+            console.log("Deleting booking with ID:", id);
+            await axios.delete(URL);
+            message.success('Data deleted successfully');
+            fetchData(); // Refetch data after deletion
+        } catch (err) {
+            console.log(err);
+            message.error('Failed to delete data');
+        }
+    };
+
+
     let fetchData = async () => {
-        const URL = 'https://jsonplaceholder.typicode.com/comments';
+        const URL = 'http://localhost:8000/api/admin/getallbookings';
         let resObj = await axios.get(URL);
-        let arrayOfData = (await resObj.data).map((element, index) => {
+        let arrayOfData = resObj.data.data.map((element, index) => {
             return {
-                key: index,
+                key: element._id, // Using _id as key
+                sl_no: index + 1,
                 email: element.email,
-                phone: element.name,
-                from: element.name,
-                to: element.name,
-                type: element.name,
-                passengers: element.id,
+                phone: element.phone,
+                from: element.from,
+                to: element.to,
+                type: element.type,
+                passengers: element.passengers,
+                date: formatDate(element.date),
+                action: element._id,
             };
         });
         setData(arrayOfData);
-
         return arrayOfData;
+    };
+
+    const formatDate = (value) => {
+        const date = new Date(value);
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        const yy = String(date.getFullYear()).slice(-2);
+        return `${mm}-${dd}-${yy}`;
     };
 
     useEffect(() => {
@@ -58,6 +82,14 @@ const Bookings = () => {
     };
 
     const columns = [
+        {
+            title: 'SL_No',
+            dataIndex: 'sl_no',
+            key: 'sl_no',
+            sorter: (a, b) => a.sl_no - b.sl_no,
+            sortOrder: sortedInfo.columnKey === 'sl_no' ? sortedInfo.order : null,
+            ellipsis: true,
+        },
         {
             title: 'Email',
             dataIndex: 'email',
@@ -114,6 +146,20 @@ const Bookings = () => {
             sortOrder: sortedInfo.columnKey === 'passengers' ? sortedInfo.order : null,
             ellipsis: true,
         },
+        {
+            title: 'Date',
+            dataIndex: 'date',
+            key: 'date',
+            sorter: (a, b) => a.date.localeCompare(b.date),
+            sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
+            ellipsis: true,
+        },
+        {
+            title: 'Action',
+            dataIndex: 'action',
+            key: 'action',
+            render: (text, record) => <a onClick={() => deleteHandler(record.key)}>Delete</a>, // Correctly passing the key as id
+        },
     ];
 
     const generatePDF = () => {
@@ -156,7 +202,7 @@ const Bookings = () => {
 
     return (
         <div>
-            <h1 className='text-4xl m-4 p-3'>All Chater Booking</h1>
+            <h1 className='text-4xl m-4 p-3'>All Charter Booking</h1>
 
             <div id="datePicker" className='flex justify-around items-center m-8 h-16'>
                 <form action="post" className='flex items-center justify-center w-[50%] h-[100%] text-1xl font-bold cursor-pointer rounded-lg overflow-hidden'>
