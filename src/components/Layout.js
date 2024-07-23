@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
+// Importing images from the image folder
+import down from '../assets/images/down_arrow.svg';
+import { GiHamburgerMenu } from "react-icons/gi";
+import { MdDashboard } from "react-icons/md";
+
+// End of importing the images
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isSideBrOpen, setSideBrOpen] = useState(false);
 
   const user = { name: "John Doe" };
 
@@ -10,37 +19,69 @@ const Layout = ({ children }) => {
     navigate("/login");
   };
 
+  const toggleCategory = () => {
+    setIsCategoryOpen(!isCategoryOpen);
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <aside className="w-64 bg-gray-800 text-white min-h-screen">
-        <div className="p-4">
-          <h2 className="text-2xl font-bold">Admin Panel</h2>
-        </div>
-        <nav className="mt-6">
-          <ul className="space-y-2">
-            <li>
-              <Link
-                to={"/dashboard"}
-                className="block px-4 py-2 hover:bg-gray-700"
-              >
-                Dashboard
-              </Link>
-              <Link
-                to={"/charters"}
-                className="block px-4 py-2 hover:bg-gray-700"
-              >
-                Charters
-              </Link>
-              <Link
-                to={"/emptylegs"}
-                className="block px-4 py-2 hover:bg-gray-700"
-              >
-                Emptylegs
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </aside>
+      {isSideBrOpen ? (
+        <aside className="w-64 bg-gray-800 text-white min-h-screen transition-all duration-300 ease-in-out overflow-hidden">
+          <div className="p-4 flex justify-between items-center cursor-pointer">
+            <h2 className="text-2xl font-bold">Admin Panel </h2>
+            <GiHamburgerMenu className="text-2xl" onClick={() => setSideBrOpen(false)} />
+          </div>
+          <nav className="mt-6">
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  to={"/dashboard"}
+                  className="px-4 py-2 hover:bg-gray-700 flex items-center"
+                >
+                  <MdDashboard className="mr-0.5" />
+                  Dashboard
+                </Link>
+              </li>
+              <li className="border-t border-gray-700 mt-2 pt-2">
+                <button
+                  onClick={toggleCategory}
+                  className="w-full text-left px-4 py-2 text-lg font-semibold hover:bg-gray-700 flex justify-between"
+                >
+                  Category
+                  <img src={down} alt="" className="w-5" />
+                </button>
+                <ul
+                  className={`transition-all duration-300 ease-in-out overflow-hidden ${isCategoryOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                    } space-y-2 pl-4`}
+                >
+                  <li>
+                    <Link
+                      to={"/charters"}
+                      className="block px-4 py-2 hover:bg-gray-700"
+                    >
+                      Charters
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={"/emptylegs"}
+                      className="block px-4 py-2 hover:bg-gray-700"
+                    >
+                      Emptylegs
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      ) : (
+        <aside className="w-12 bg-gray-800 text-white min-h-screen flex flex-col items-center transition-all duration-300 ease-in-out overflow-hidden">
+          <div className="p-4 cursor-pointer">
+            <GiHamburgerMenu className="text-2xl" onClick={() => setSideBrOpen(true)} />
+          </div>
+        </aside>
+      )}
 
       <div className="flex-1 flex flex-col">
         <header className="bg-indigo-600 p-4 text-white shadow-md flex justify-between items-center mx-1">

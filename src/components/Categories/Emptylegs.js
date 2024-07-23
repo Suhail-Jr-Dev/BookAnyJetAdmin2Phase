@@ -22,7 +22,7 @@ const Emptylegs = () => {
             <h2 className="text-xl font-semibold mb-2">Emptylegs Categories</h2>
             <p className="text-gray-600">Explore various categories of charters available.</p>
             <div className='flex justify-start'>
-                <button className='text-white bg-blue-800 p-2 rounded-md mt-4' onClick={handleCategories}>Explore more</button>
+              <button className='text-white bg-blue-800 p-2 rounded-md mt-4' onClick={handleCategories}>Explore more</button>
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@ const Emptylegs = () => {
             <h2 className="text-xl font-semibold mb-2">Emptylegs Bookings</h2>
             <p className="text-gray-600">Manage and view all your charter bookings here.</p>
             <div className='flex justify-start'>
-                <button className='text-white bg-blue-800 p-2 rounded-md mt-4' onClick={handleBookings}>Explore more</button>
+              <button className='text-white bg-blue-800 p-2 rounded-md mt-4' onClick={handleBookings}>Explore more</button>
             </div>
           </div>
         </div>

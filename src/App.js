@@ -8,6 +8,7 @@ import Charters from './components/Categories/Charters';
 import Emptylegs from './components/Categories/Emptylegs';
 import EmptylegsCategories from './components/Categories/EmptylegsCategories';
 import CharterCategories from './components/Categories/CharterCategories';
+import Bookings from './pages/Bookings';
 
 function App() {
   return (
@@ -19,24 +20,25 @@ function App() {
 
 const AppContent = () => {
   const location = useLocation();
-  
-  const showLayout = location.pathname !== '/login';
 
+  const showLayout = location.pathname !== '/login';
+ 
   return showLayout ? (
     <Layout>
       <Routes>
-        <Route 
-          path="/dashboard" 
+        <Route
+          path="/dashboard"
           element={
             <PrivateRoute>
               <Dashboard />
             </PrivateRoute>
-          } 
+          }
         />
         <Route path="/charters" element={<Charters />} />
         <Route path="/emptylegs" element={<Emptylegs />} />
         <Route path="/emptylegsAllCategories" element={<EmptylegsCategories />} />
         <Route path="/chartersAllCategories" element={<CharterCategories />} />
+        <Route path="/chartersBookings" element={<Bookings />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Layout>
@@ -50,6 +52,7 @@ const AppContent = () => {
 
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = true; // suhail please Replace this with your actual authentication logic when u work
+  console.log(children)
 
   return isAuthenticated ? (
     <>{children}</>
