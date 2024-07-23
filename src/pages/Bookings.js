@@ -164,9 +164,18 @@ const Bookings = () => {
 
     const generatePDF = () => {
         const doc = new jsPDF();
-        const tableColumn = columns.map(col => col.title);
-        const tableRows = data.map(row => columns.map(col => row[col.dataIndex]));
-
+        
+        // Exclude the 'Action' column from PDF
+        const tableColumn = columns
+            .filter(col => col.key !== 'action') // Filter out the 'Action' column
+            .map(col => col.title);
+        
+        const tableRows = data.map(row => 
+            columns
+                .filter(col => col.key !== 'action') // Filter out the 'Action' column
+                .map(col => row[col.dataIndex])
+        );
+    
         doc.autoTable({
             head: [tableColumn],
             body: tableRows,
@@ -196,9 +205,10 @@ const Bookings = () => {
                 1: { cellWidth: 'auto' },
             },
         });
-
+    
         doc.save('Booking_Details.pdf');
     };
+    
 
     return (
         <div>
