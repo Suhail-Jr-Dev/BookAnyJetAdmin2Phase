@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import down from '../assets/images/down_arrow.svg';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdDashboard } from "react-icons/md";
+import { MdOutlineCategory } from "react-icons/md";
+import { FaAngleDoubleDown } from "react-icons/fa";
 
 // End of importing the images
 
@@ -45,10 +47,15 @@ const Layout = ({ children }) => {
               <li className="border-t border-gray-700 mt-2 pt-2">
                 <button
                   onClick={toggleCategory}
-                  className="w-full text-left px-4 py-2 text-lg font-semibold hover:bg-gray-700 flex justify-between"
+                  className="w-full text-left px-4 py-2 text-lg font-semibold hover:bg-gray-700 flex justify-between items-center"
                 >
-                  Category
-                  <img src={down} alt="" className="w-5" />
+
+                  <div className="flex items-center justify-center">
+                    <MdOutlineCategory className="m-1"/>
+                    Category
+                  </div>
+
+                  <FaAngleDoubleDown />
                 </button>
                 <ul
                   className={`transition-all duration-300 ease-in-out overflow-hidden ${isCategoryOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
