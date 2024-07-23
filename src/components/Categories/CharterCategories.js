@@ -14,14 +14,15 @@ const CharterCategories = () => {
   const [file, setFile] = useState(null);
   const [editingCategory, setEditingCategory] = useState(null);
   const [loading, setLoading] = useState(false);
-  const[editData , setEditData] = useState([]) ; 
 
   useEffect(() => {
     const getData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:8000/api/admin/getallcategories");
-        setCategoryData(response.data.data); // Assuming the data structure
+        const response = await axios.get(
+          "http://localhost:8000/api/admin/getallcategories"
+        );
+        setCategoryData(response.data.data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -54,7 +55,7 @@ const CharterCategories = () => {
       price: category.price,
       description: category.description,
     });
-    setFile(null); // Clear file selection for editing
+    setFile(null);
   };
 
   const handleCloseEditModal = () => {
@@ -78,16 +79,23 @@ const CharterCategories = () => {
 
     try {
       setLoading(true);
-      await axios.post("http://localhost:8000/api/admin/addchartercategory", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post(
+        "http://localhost:8000/api/admin/addchartercategory",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       message.success("Charter added successfully");
 
-      const response = await axios.get("http://localhost:8000/api/admin/getallcategories");
-      setCategoryData(response.data.data);
+      const response = await axios.get(
+        "http://localhost:8000/api/admin/getallcategories"
+      );
+
       handleCloseAddModal();
+      setCategoryData(response.data.data);
     } catch (err) {
       console.log(err);
       message.error("An error occurred while adding the category");
@@ -97,33 +105,41 @@ const CharterCategories = () => {
   };
 
   const handleEditCategory = async (values) => {
-    console.log(values) ;
-    setEditData(Object(values)) ;
-    console.log(editData , "----") ;
-    // formData.append("type", values.type);
-    // formData.append("passengers", values.passengers);
-    // formData.append("speed", values.speed);
-    // formData.append("price", values.price);
-    // formData.append("description", values.description);
-    // formData.append("mytest" , "1232") ;
-    // console.log(formData) ;
-    // if (file) {
-    //   formData.append("image", file);
-    // }
+    const formData = new FormData();
+
+    formData.append("type", values.type);
+    formData.append("passengers", values.passengers);
+    formData.append("speed", values.speed);
+    formData.append("price", values.price);
+    formData.append("description", values.description);
+
+    if (file) {
+      formData.append("image", file);
+    } else if (editingCategory && editingCategory.image) {
+      formData.append("image", editingCategory.image);
+    }
+
     try {
       setLoading(true);
-      await axios.put(`http://localhost:8000/api/admin/editcharterbyid/${editingCategory._id}`, editData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.put(
+        `http://localhost:8000/api/admin/editcharterbyid/${editingCategory._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       message.success("Charter updated successfully");
 
-      const response = await axios.get("http://localhost:8000/api/admin/getallcategories");
-      setCategoryData(response.data.data);
+      const response = await axios.get(
+        "http://localhost:8000/api/admin/getallcategories"
+      );
+
       handleCloseEditModal();
+      setCategoryData(response.data.data);
     } catch (err) {
-      console.log(err);
+      console.log("Full Error:", err);
       message.error("An error occurred while updating the category");
     } finally {
       setLoading(false);
@@ -133,9 +149,13 @@ const CharterCategories = () => {
   const handleDelete = async (id) => {
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:8000/api/admin/deletecharterbyid/${id}`);
+      await axios.delete(
+        `http://localhost:8000/api/admin/deletecharterbyid/${id}`
+      );
       message.success("Charter deleted successfully");
-      const response = await axios.get("http://localhost:8000/api/admin/getallcategories");
+      const response = await axios.get(
+        "http://localhost:8000/api/admin/getallcategories"
+      );
       setCategoryData(response.data.data);
     } catch (err) {
       console.log(err);
@@ -190,14 +210,22 @@ const CharterCategories = () => {
           <Form.Item
             label="Charter Type"
             name="type"
-            rules={[{ required: true, message: "Please input the category type!" }]}
+            rules={[
+              { required: true, message: "Please input the category type!" },
+            ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Passengers"
             name="passengers"
-            rules={[{ required: true, message: "Please enter the number of passengers it can accommodate!" }]}
+            rules={[
+              {
+                required: true,
+                message:
+                  "Please enter the number of passengers it can accommodate!",
+              },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -211,39 +239,36 @@ const CharterCategories = () => {
           <Form.Item
             label="Price"
             name="price"
-            rules={[{ required: true, message: "Please enter price details" }]}
+            rules={[{ required: true, message: "Please enter the price" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Description"
             name="description"
-            rules={[{ required: true, message: "Please enter description" }]}
+            rules={[
+              { required: true, message: "Please enter a description" },
+            ]}
           >
             <TextArea />
           </Form.Item>
           <Form.Item
-            label="Image"
+            label="Upload Image"
             name="image"
-            rules={[{ required: true, message: "Please upload an image!" }]}
+            rules={[{ required: true, message: "Please upload an image" }]}
           >
             <Upload
-              beforeUpload={() => false}
-              listType="picture"
-              onChange={handleFileChange}
+              customRequest={handleFileChange}
+              showUploadList={false}
+              accept="image/*"
             >
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
             </Upload>
           </Form.Item>
           <Form.Item>
-            <div className="flex justify-end gap-4">
-              <Button onClick={handleCloseAddModal} className="bg-gray-500 text-white rounded-md">
-                Cancel
-              </Button>
-              <Button type="primary" htmlType="submit" className="bg-blue-800 text-white rounded-md">
-                Add
-              </Button>
-            </div>
+            <Button type="primary" htmlType="submit" loading={loading}>
+              Add Category
+            </Button>
           </Form.Item>
         </Form>
       </Modal>
@@ -260,14 +285,22 @@ const CharterCategories = () => {
           <Form.Item
             label="Charter Type"
             name="type"
-            rules={[{ required: true, message: "Please input the category type!" }]}
+            rules={[
+              { required: true, message: "Please input the category type!" },
+            ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Passengers"
             name="passengers"
-            rules={[{ required: true, message: "Please enter the number of passengers it can accommodate!" }]}
+            rules={[
+              {
+                required: true,
+                message:
+                  "Please enter the number of passengers it can accommodate!",
+              },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -281,38 +314,35 @@ const CharterCategories = () => {
           <Form.Item
             label="Price"
             name="price"
-            rules={[{ required: true, message: "Please enter price details" }]}
+            rules={[{ required: true, message: "Please enter the price" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Description"
             name="description"
-            rules={[{ required: true, message: "Please enter description" }]}
+            rules={[
+              { required: true, message: "Please enter a description" },
+            ]}
           >
             <TextArea />
           </Form.Item>
           <Form.Item
-            label="Image"
+            label="Upload Image (optional)"
             name="image"
           >
             <Upload
-              beforeUpload={() => false}
-              listType="picture"
-              onChange={handleFileChange}
+              customRequest={handleFileChange}
+              showUploadList={false}
+              accept="image/*"
             >
-              <Button icon={<UploadOutlined />}>Change Image</Button>
+              <Button icon={<UploadOutlined />}>Upload New Image</Button>
             </Upload>
           </Form.Item>
           <Form.Item>
-            <div className="flex justify-end gap-4">
-              <Button onClick={handleCloseEditModal} className="bg-gray-500 text-white rounded-md">
-                Cancel
-              </Button>
-              <Button type="primary" htmlType="submit" className="bg-blue-800 text-white rounded-md">
-                Update
-              </Button>
-            </div>
+            <Button type="primary" htmlType="submit" loading={loading}>
+              Update Category
+            </Button>
           </Form.Item>
         </Form>
       </Modal>
