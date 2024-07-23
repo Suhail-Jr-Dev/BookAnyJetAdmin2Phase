@@ -10,7 +10,7 @@ const Charters = () => {
       };
     
       const handleBookings = () => {
-        navigate('/chartersAllCategories');
+        navigate('/chartersBookings');
       };
   return (
     <div className="p-6">
