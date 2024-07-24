@@ -191,6 +191,8 @@ const CharterCategories = () => {
               key={category._id}
               logo={category.image}
               name={category.type}
+              price={category.price}
+              description={category.description}
               onEdit={() => handleOpenEditModal(category)}
               onDelete={() => handleDelete(category._id)}
             />
