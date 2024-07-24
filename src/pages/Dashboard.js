@@ -26,7 +26,7 @@ const Dashboard = () => {
             <h2 className="text-xl font-semibold mb-2">Charters</h2>
             <p className="text-gray-600">Manage your charter settings and view related analytics.</p>
             <div className='flex justify-start'>
-                <button className='text-white bg-blue-800 p-2 rounded-md mt-4' onClick={handleChartersNav}>Explore more</button>
+                <button className='text-white bg-blue-600 p-2 rounded-md mt-4' onClick={handleChartersNav}>Explore more</button>
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@ const Dashboard = () => {
             <h2 className="text-xl font-semibold mb-2">Emptylegs</h2>
             <p className="text-gray-600">View and manage emptylegs data and settings.</p>
             <div className='flex justify-start'>
-                <button className='text-white bg-blue-800 p-2 rounded-md mt-4' onClick={handleEmptynav}>Explore more</button>
+                <button className='text-white bg-blue-600 p-2 rounded-md mt-4' onClick={handleEmptynav}>Explore more</button>
             </div>
           </div>
         </div>

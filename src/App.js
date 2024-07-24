@@ -9,6 +9,7 @@ import Emptylegs from './components/Categories/Emptylegs';
 import EmptylegsCategories from './components/Categories/EmptylegsCategories';
 import CharterCategories from './components/Categories/CharterCategories';
 import Bookings from './pages/Bookings';
+import EmptylegsBooking from './components/Categories/EmptylegsBooking';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ const AppContent = () => {
         <Route path="/emptylegsAllCategories" element={<EmptylegsCategories />} />
         <Route path="/chartersAllCategories" element={<CharterCategories />} />
         <Route path="/chartersBookings" element={<Bookings />} />
+        <Route path="/emptylegbookings" element={<EmptylegsBooking />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Layout>

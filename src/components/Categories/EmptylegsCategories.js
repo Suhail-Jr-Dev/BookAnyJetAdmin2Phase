@@ -20,9 +20,9 @@ const EmptylegsCategories = () => {
     <>
       <div className='flex justify-between m-2'>
         <div className='text-2xl font-bold'>All Emptylegs Categories</div>
-        <button 
-          onClick={handleOpenModal} 
-          className='bg-blue-800 border border-white rounded-md p-4 text-white'
+        <button
+          onClick={handleOpenModal}
+          className='bg-purple-600 border border-white rounded-md p-4 text-white'
         >
           Add Category
         </button>

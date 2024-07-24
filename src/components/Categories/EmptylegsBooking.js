@@ -3,9 +3,9 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Button, Space, Table, message } from 'antd';
 import axios from 'axios';
-import '../pages/Booking.css'; // Import the custom CSS file
+import '../Categories/EmptylegsBooking.css'; // Import the custom CSS file
 
-const Bookings = () => {
+const EmptylegsBooking = () => {
     let [data, setData] = useState([]);
     const fromDateRef = useRef(null);
     const toDateRef = useRef(null);
@@ -129,7 +129,7 @@ const Bookings = () => {
             sortOrder: sortedInfo.columnKey === 'sl_no' ? sortedInfo.order : null,
             ellipsis: true,
         },
-        {  
+        {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
@@ -250,7 +250,7 @@ const Bookings = () => {
 
     return (
         <div>
-            <h1 className='text-4xl m-4 p-3'>All Charter Booking</h1>
+            <h1 className='text-4xl m-4 p-3'>All Emtpy leg Bookings</h1>
 
             <div id="datePicker" className='flex justify-around items-center m-8 h-16'>
                 <form method="post" className='flex items-center justify-center w-[50%] h-[100%] text-1xl font-bold cursor-pointer rounded-lg overflow-hidden' action='/api/admin/sorted'>
@@ -304,11 +304,11 @@ const Bookings = () => {
                 columns={columns}
                 dataSource={data}
                 onChange={handleChange}
-                className='charters'
+                className='emptyleg'
             />
         </div>
     );
 };
 
-export default Bookings;
+export default EmptylegsBooking;
 

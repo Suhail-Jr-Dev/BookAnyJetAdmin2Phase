@@ -1,0 +1,16 @@
+/* custom.css */
+
+
+.charters .ant-table-thead>tr>th {
+    background-color: #024bbe !important;
+    /* Example: Changing header background color */
+    color: white !important;
+    /* Example: Changing header text color */
+}
+
+.ant-table-tbody>tr>td {
+    background-color: #fff;
+    /* Example: Changing body background color */
+    color: #000000;
+    /* Example: Changing body text color */
+}
