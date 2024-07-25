@@ -24,22 +24,22 @@ const CharterCard = ({ logo, name, price, description, onEdit, onDelete, availab
   return (
     <div className='relative border m-4 p-2 w-[16rem] shadow-lg rounded-lg transform transition-transform duration-300 hover:scale-105'>
       {/* Availability Icon */}
-      <div className='absolute top-4 left-4 flex items-center space-x-2'>
+      <div className='absolute flex items-center space-x-2 top-4 left-4'>
         {availability === 'yes' ? (
-          <div className='bg-green-500 text-white font-semibold text-xs p-1 rounded-full flex items-center'>
-            <CheckCircleOutlined  className='font-semibold text-lg'/>
+          <div className='flex items-center p-1 text-xs font-semibold text-white bg-green-500 rounded-full'>
+            <CheckCircleOutlined  className='text-lg font-semibold'/>
             <span className='ml-1 mr-2'>Available</span>
           </div>
         ) : (
-          <div className='bg-red-500 text-white font-semibold text-xs p-1 rounded-full flex items-center'>
-            <CloseCircleOutlined  className='font-semibold text-lg'/>
+          <div className='flex items-center p-1 text-xs font-semibold text-white bg-red-500 rounded-full'>
+            <CloseCircleOutlined  className='text-lg font-semibold'/>
             <span className='ml-1 mr-2'>Not Available</span>
           </div>
         )}
       </div>
 
       {/* Dropdown Menu */}
-      <div className='bg-white absolute top-4 right-4 rounded-lg text-lg'>
+      <div className='absolute text-lg bg-white rounded-lg top-4 right-4'>
         <Dropdown
           overlay={menu}
           trigger={['click']}
@@ -55,13 +55,13 @@ const CharterCard = ({ logo, name, price, description, onEdit, onDelete, availab
         <img className='w-[15rem] h-[12rem] object-cover rounded-lg' src={logo} alt='jet' />
       </div>
       <div className='p-2'>
-        <h1 className='font-mono text-xl mb-2 mt-2 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap'>
+        <h1 className='mt-2 mb-2 overflow-hidden font-mono text-xl cursor-pointer text-ellipsis whitespace-nowrap'>
           {name}
         </h1>
-        <p className='text-gray-600 text-sm mb-1'>
+        <p className='mb-1 text-sm text-gray-600'>
           {description}
         </p>
-        <p className='text-black text-lg font-bold'>
+        <p className='text-lg font-bold text-black'>
           {price}
           <span className='text-gray-700'> / PER HOUR</span>
         </p>
