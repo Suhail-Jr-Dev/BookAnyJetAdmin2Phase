@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { Button, Space, Table, message } from 'antd';
+import { Button, Space, Table, message, Input } from 'antd';
 import axios from 'axios';
 import '../pages/Booking.css'; // Import the custom CSS file
 
 const Bookings = () => {
     let [data, setData] = useState([]);
+    let [filteredData, setFilteredData] = useState([]);
     const fromDateRef = useRef(null);
     const toDateRef = useRef(null);
+    const searchRef = useRef(null);
 
     const deleteHandler = async (id) => {
         try {
@@ -41,6 +43,7 @@ const Bookings = () => {
             };
         });
         setData(arrayOfData);
+        setFilteredData(arrayOfData); // Set filtered data initially to full data
         return arrayOfData;
     };
 
@@ -96,6 +99,7 @@ const Bookings = () => {
                     };
                 });
                 setData(arrayOfData);
+                setFilteredData(arrayOfData);
             } else {
                 message.error('No data received from API');
             }
@@ -103,6 +107,20 @@ const Bookings = () => {
             console.error('Error fetching sorted data:', error);
             message.error('Failed to fetch sorted data');
         }
+    };
+
+    const handleSearch = (e) => {
+        const value = e.target.value.toLowerCase();
+        const filtered = data.filter(item =>
+            item.email.toLowerCase().includes(value) ||
+            item.phone.toLowerCase().includes(value) ||
+            item.from.toLowerCase().includes(value) ||
+            item.to.toLowerCase().includes(value) ||
+            item.type.toLowerCase().includes(value) ||
+            item.passengers.toString().toLowerCase().includes(value) ||
+            item.date.toLowerCase().includes(value)
+        );
+        setFilteredData(filtered);
     };
 
     const handleChange = (pagination, filters, sorter) => {
@@ -117,6 +135,7 @@ const Bookings = () => {
         setToDate('');
         if (fromDateRef.current) fromDateRef.current.value = '';
         if (toDateRef.current) toDateRef.current.value = '';
+        if (searchRef.current) searchRef.current.value = '';
         fetchData();
     };
 
@@ -129,7 +148,7 @@ const Bookings = () => {
             sortOrder: sortedInfo.columnKey === 'sl_no' ? sortedInfo.order : null,
             ellipsis: true,
         },
-        {  
+        {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
@@ -252,7 +271,7 @@ const Bookings = () => {
         <div>
             <h1 className='text-4xl m-4 p-3'>All Charter Booking</h1>
 
-            <div id="datePicker" className='flex justify-around items-center m-8 h-16'>
+            <div id="datePicker" className='flex justify-around gap-2 items-center m-8 h-16'>
                 <form method="post" className='flex items-center justify-center w-[50%] h-[100%] text-1xl font-bold cursor-pointer rounded-lg overflow-hidden' action='/api/admin/sorted'>
                     <input
                         type="date"
@@ -289,9 +308,19 @@ const Bookings = () => {
                         Filter By Date
                     </button>
                 )}
+            <input
+                type="text"
+                name="#"
+                id="#"
+                ref={toDateRef}
+                placeholder='Search'
+                className='w-[20%] h-[100%] p-3 outline-none cursor-pointer m-3 rounded-lg'
+                onChange={handleSearch}
+            />
             </div>
 
-            <Button onClick={generatePDF}>Download PDF</Button>
+
+            <Button onClick={generatePDF} className='bg-[#024BBE] font-semibold text-white'>Download PDF</Button>
 
             <Button
                 onClick={clearFilters}
@@ -302,7 +331,7 @@ const Bookings = () => {
 
             <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={filteredData}
                 onChange={handleChange}
                 className='charters'
             />
@@ -311,4 +340,3 @@ const Bookings = () => {
 };
 
 export default Bookings;
-
