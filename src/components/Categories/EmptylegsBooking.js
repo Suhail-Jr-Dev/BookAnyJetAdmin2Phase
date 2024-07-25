@@ -12,7 +12,7 @@ const EmptylegsBooking = () => {
 
     const deleteHandler = async (id) => {
         try {
-            let URL = `http://localhost:8000/api/admin/deletebookingbyid/${id}`;
+            let URL = `http://localhost:8000/api/admin/deleteemptylegbookingbyid/${id}`;
             console.log("Deleting booking with ID:", id);
             await axios.delete(URL);
             message.success('Data deleted successfully');
@@ -24,7 +24,7 @@ const EmptylegsBooking = () => {
     };
 
     let fetchData = async () => {
-        const URL = 'http://localhost:8000/api/admin/getallbookings';
+        const URL = 'http://localhost:8000/api/admin/getallemptylegbookings';
         let resObj = await axios.get(URL);
         let arrayOfData = resObj.data.data.map((element, index) => {
             return {
@@ -64,7 +64,7 @@ const EmptylegsBooking = () => {
 
     const sortedResult = async () => {
         try {
-            const url = 'http://localhost:8000/api/admin/sorted';
+            const url = 'http://localhost:8000/api/admin/filteremptylegbooking';
             const payload = {
                 from: fromDate,
                 to: toDate,
@@ -244,7 +244,6 @@ const EmptylegsBooking = () => {
                 1: { cellWidth: 'auto' },
             },
         });
-
         doc.save('Booking_Details.pdf');
     };
 

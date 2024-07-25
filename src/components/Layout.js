@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import down from '../assets/images/down_arrow.svg';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdDashboard } from "react-icons/md";
 import { MdOutlineCategory } from "react-icons/md";
@@ -12,7 +11,7 @@ const Layout = ({ children }) => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isSideBrOpen, setSideBrOpen] = useState(false);
 
-  const user = { name: "John Doe" };
+  const user = { name: "Sambit" };
 
   const handleLogout = () => {
     navigate("/login");
