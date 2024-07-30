@@ -25,7 +25,7 @@ const EmptylegsBooking = () => {
 
     let fetchData = async () => {
         try {
-            const URL = 'http://localhost:8000/api/admin/getallbookings';
+            const URL = 'http://localhost:8000/api/admin/getallemptylegbookings';
             let resObj = await axios.get(URL);
             let arrayOfData = resObj.data.data.map((element, index) => {
                 return {
@@ -255,9 +255,9 @@ const EmptylegsBooking = () => {
 
     return (
         <div>
-            <h1 className='text-4xl m-4 p-3'>All Emtpy leg Bookings</h1>
+            <h1 className='p-3 m-4 text-4xl'>All Emtpy leg Bookings</h1>
 
-            <div id="datePicker" className='flex justify-around items-center m-8 h-16'>
+            <div id="datePicker" className='flex items-center justify-around h-16 m-8'>
                 <form method="post" className='flex items-center justify-center w-[50%] h-[100%] text-1xl font-bold cursor-pointer rounded-lg overflow-hidden' action='/api/admin/sorted'>
                     <input
                         type="date"
@@ -288,7 +288,7 @@ const EmptylegsBooking = () => {
 
                 {(fromDate && toDate) && (
                     <button
-                        className='border p-4 shadow-md rounded-xl bg-zinc-300 font-bold outline-none border-none'
+                        className='p-4 font-bold border border-none shadow-md outline-none rounded-xl bg-zinc-300'
                         onClick={sortedResult}
                     >
                         Filter By Date

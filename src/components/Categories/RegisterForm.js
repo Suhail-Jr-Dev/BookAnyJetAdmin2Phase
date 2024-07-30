@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { message } from 'antd';
 const RegisterForm = () => {
     const [emailformdata, setEmailFormData] = useState('');
     const [passwordformdata, setPasswordFormData] = useState('');
@@ -20,14 +20,16 @@ const RegisterForm = () => {
                 },
             });
             console.log('Response:', response.data);
+            message.success("Registered Successfully")
         } catch (error) {
             console.error('Error:', error.response ? error.response.data : error.message);
+            message.error("Try Again")
         }
     };
 
     return (
-        <section className="bg-gray-100 min-h-screen flex justify-center items-center">
-            <div className="w-full max-w-lg p-12 space-y-8 bg-white rounded-lg shadow-2xl transform transition duration-500 hover:scale-105">
+        <section className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="w-full max-w-lg p-12 space-y-8 transition duration-500 transform bg-white rounded-lg shadow-2xl hover:scale-105">
                 <a href="#" className="flex items-center justify-center mb-6 text-2xl font-semibold text-blue-800">
                     <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
                     My Air Deal
@@ -44,7 +46,7 @@ const RegisterForm = () => {
                             type="email"
                             name="email"
                             id="email"
-                            className="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="name@company.com"
                             required
                             onChange={(e) => setEmailFormData(e.target.value)}
@@ -60,7 +62,7 @@ const RegisterForm = () => {
                             name="password"
                             id="password"
                             placeholder="••••••••"
-                            className="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                             onChange={(e) => setPasswordFormData(e.target.value)}
                             value={passwordformdata}
