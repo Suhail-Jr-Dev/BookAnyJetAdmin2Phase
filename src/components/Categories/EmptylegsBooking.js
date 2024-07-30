@@ -24,24 +24,29 @@ const EmptylegsBooking = () => {
     };
 
     let fetchData = async () => {
-        const URL = 'http://localhost:8000/api/admin/getallbookings';
-        let resObj = await axios.get(URL);
-        let arrayOfData = resObj.data.data.map((element, index) => {
-            return {
-                key: element._id, // Using _id as key
-                sl_no: index + 1,
-                email: element.email,
-                phone: element.phone,
-                from: element.from,
-                to: element.to,
-                type: element.type,
-                passengers: element.passengers,
-                date: formatDate(element.date),
-                action: element._id,
-            };
-        });
-        setData(arrayOfData);
-        return arrayOfData;
+        try {
+            const URL = 'http://localhost:8000/api/admin/getallbookings';
+            let resObj = await axios.get(URL);
+            let arrayOfData = resObj.data.data.map((element, index) => {
+                return {
+                    key: element._id, // Using _id as key
+                    sl_no: index + 1,
+                    email: element.email,
+                    phone: element.phone,
+                    from: element.from,
+                    to: element.to,
+                    type: element.type,
+                    passengers: element.passengers,
+                    date: formatDate(element.date),
+                    action: element._id,
+                };
+            });
+            setData(arrayOfData);
+            return arrayOfData;
+        }
+        catch(error){
+            message.error('API is faild to get Data!!!')
+        }
     };
 
     const formatDate = (value) => {

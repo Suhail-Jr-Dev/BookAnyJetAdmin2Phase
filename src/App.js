@@ -10,6 +10,8 @@ import EmptylegsCategories from './components/Categories/EmptylegsCategories';
 import CharterCategories from './components/Categories/CharterCategories';
 import Bookings from './pages/Bookings';
 import EmptylegsBooking from './components/Categories/EmptylegsBooking';
+import RegisterForm from './components/Categories/RegisterForm';
+import { PrivateRoute } from './ProtectedRoute'
 
 function App() {
   return (
@@ -22,8 +24,8 @@ function App() {
 const AppContent = () => {
   const location = useLocation();
 
-  const showLayout = location.pathname !== '/login';
- 
+  const showLayout = location.pathname !== '/login' && location.pathname !== '/register';
+
   return showLayout ? (
     <Layout>
       <Routes>
@@ -35,32 +37,30 @@ const AppContent = () => {
             </PrivateRoute>
           }
         />
-        <Route path="/charters" element={<Charters />} />
-        <Route path="/emptylegs" element={<Emptylegs />} />
-        <Route path="/emptylegsAllCategories" element={<EmptylegsCategories />} />
-        <Route path="/chartersAllCategories" element={<CharterCategories />} />
-        <Route path="/chartersBookings" element={<Bookings />} />
-        <Route path="/emptylegbookings" element={<EmptylegsBooking />} />
+        <Route path="/charters" element={
+
+          <PrivateRoute>
+            <Charters />
+          </PrivateRoute>
+        }
+        />
+        <Route path="/emptylegs" element={<PrivateRoute><Emptylegs /></PrivateRoute>} />
+        <Route path="/emptylegsAllCategories" element={<PrivateRoute><EmptylegsCategories /></PrivateRoute>} />
+        <Route path="/chartersAllCategories" element={<PrivateRoute><CharterCategories /></PrivateRoute>} />
+        <Route path="/chartersBookings" element={<PrivateRoute><Bookings /></PrivateRoute>} />
+        <Route path="/emptylegbookings" element={<PrivateRoute><EmptylegsBooking /></PrivateRoute>} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Layout>
   ) : (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<RegisterForm />} />
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );
 };
 
-const PrivateRoute = ({ children }) => {
-  const isAuthenticated = true; // suhail please Replace this with your actual authentication logic when u work
-  console.log(children)
 
-  return isAuthenticated ? (
-    <>{children}</>
-  ) : (
-    <Navigate to="/login" />
-  );
-};
 
 export default App;

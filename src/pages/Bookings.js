@@ -26,25 +26,31 @@ const Bookings = () => {
     };
 
     let fetchData = async () => {
-        const URL = 'http://localhost:8000/api/admin/getallbookings';
-        let resObj = await axios.get(URL);
-        let arrayOfData = resObj.data.data.map((element, index) => {
-            return {
-                key: element._id, // Using _id as key
-                sl_no: index + 1,
-                email: element.email,
-                phone: element.phone,
-                from: element.from,
-                to: element.to,
-                type: element.type,
-                passengers: element.passengers,
-                date: formatDate(element.date),
-                action: element._id,
-            };
-        });
-        setData(arrayOfData);
-        setFilteredData(arrayOfData); // Set filtered data initially to full data
-        return arrayOfData;
+        try {
+            const URL = 'http://localhost:8000/api/admin/getallbookings';
+            let resObj = await axios.get(URL);
+            let arrayOfData = resObj.data.data.map((element, index) => {
+                return {
+                    key: element._id, // Using _id as key
+                    sl_no: index + 1,
+                    email: element.email,
+                    phone: element.phone,
+                    from: element.from,
+                    to: element.to,
+                    type: element.type,
+                    passengers: element.passengers,
+                    date: formatDate(element.date),
+                    action: element._id,
+                };
+            });
+            setData(arrayOfData);
+            setFilteredData(arrayOfData); // Set filtered data initially to full data
+            return arrayOfData;
+        }
+        catch (error) {
+            console.log(error)
+            message.error('Failed to Fetch Data Network issues')
+        }
     };
 
     const formatDate = (value) => {
@@ -308,15 +314,15 @@ const Bookings = () => {
                         Filter By Date
                     </button>
                 )}
-            <input
-                type="text"
-                name="#"
-                id="#"
-                ref={toDateRef}
-                placeholder='Search'
-                className='w-[20%] h-[100%] p-3 outline-none cursor-pointer m-3 rounded-lg'
-                onChange={handleSearch}
-            />
+                <input
+                    type="text"
+                    name="#"
+                    id="#"
+                    ref={toDateRef}
+                    placeholder='Search'
+                    className='w-[20%] h-[100%] p-3 outline-none cursor-pointer m-3 rounded-lg'
+                    onChange={handleSearch}
+                />
             </div>
 
 

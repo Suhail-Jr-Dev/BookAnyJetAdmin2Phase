@@ -1,106 +1,81 @@
 import React from 'react';
-import { Form, Input, Button, Typography, Space, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
-
-const { Title } = Typography;
+import { Form, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import RegisterForm from '../components/Categories/RegisterForm';
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const formik = useFormik({
-    initialValues: {
-      username: '',
-      password: '',
-    },
-    validationSchema: Yup.object({
-      username: Yup.string().required('Required'),
-      password: Yup.string().required('Required'),
-    }),
-    onSubmit: (values) => {
-      const { username, password } = values;
+  const loginUserCall = async (payload) => {
+    try {
+      const response = await axios.post("http://localhost:8000/api/admin/login", payload);
+      return response;
+    } catch (err) {
+      return err;
+    }
+  };
 
-      if (username === 'admin' && password === 'password') {
-        navigate('/dashboard');
-        message.success("Logged in successfully") ;
+  const onFinish = async (values) => {
+    try {
+      const response = await loginUserCall(values);
+      if (response) {
+        localStorage.setItem('admin', true);
+        message.success(response.data.message);
+
+        navigate("/dashboard");
+
       } else {
-        message.error('Invalid username or password');
+        message.error(response.data.message);
       }
-    },
-  });
+    } catch (err) {
+      message.error(err.response?.data?.message || "An error occurred during login.");
+    }
+  };
+
+
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <Space direction="vertical" align="center" style={{ width: '100%' }}>
-          <h1 className='text-2xl font-bold mb-4'>MyAirDeal</h1>
-          <Title level={3} style={styles.title}>
-            Admin Panel Login
-          </Title>
-        </Space>
-        <Form layout="vertical" onFinish={formik.handleSubmit}>
- <Form.Item
-            label="Username"
-            validateStatus={formik.touched.username && formik.errors.username ? 'error' : ''}
-            help={formik.touched.username && formik.errors.username}
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-lg p-12 space-y-8 bg-white rounded-lg shadow-2xl transform transition duration-500 hover:scale-105">
+        <h1 className="text-3xl font-bold text-center text-blue-800">Welcome Back!</h1>
+        <Form layout="vertical" onFinish={onFinish}>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: 'Please enter your email!' }]}
           >
-            <Input
-              id="username"
-              name="username"
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              placeholder="Enter your username"
+            <input
+              type="email"
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-          </Form.Item>         
+          </Form.Item>
           <Form.Item
             label="Password"
-            validateStatus={formik.touched.password && formik.errors.password ? 'error' : ''}
-            help={formik.touched.password && formik.errors.password}
+            name="password"
+            rules={[{ required: true, message: 'Please enter your password!' }]}
           >
-            <Input.Password
-              id="password"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              placeholder="Enter your password"
+            <input
+              type="password"
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" block style={styles.button}>
+          <div className="flex flex-col gap-4">
+            <button
+              className="w-full py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="submit"
+            >
               Login
-            </Button>
-          </Form.Item>
+            </button>
+            <Link to={"/register"}>cnsdnc</Link>
+          </div>
         </Form>
       </div>
+
+      {/* <RegisterForm/> */}
+
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    background: "url('/path/to/background.jpg') no-repeat center center fixed",
-    backgroundSize: 'cover',
-  },
-  card: {
-    width: '400px',
-    padding: '30px',
-    background: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
-    textAlign: 'center',
-  },
-  title: {
-    marginBottom: '20px',
-  },
-  button: {
-    backgroundColor: '#001529',
-    borderColor: '#001529',
-  },
 };
 
 export default Login;

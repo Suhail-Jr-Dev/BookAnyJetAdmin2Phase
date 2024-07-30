@@ -15,6 +15,7 @@ const Layout = ({ children }) => {
   const user = { name: "John Doe" };
 
   const handleLogout = () => {
+    localStorage.removeItem('admin')
     navigate("/login");
   };
 
