@@ -12,6 +12,10 @@ const Charters = () => {
       const handleBookings = () => {
         navigate('/chartersBookings');
       };
+
+      const handleCategory = () => {
+        navigate('/chartersCategory');
+      };
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-8">Charter Details</h1>
@@ -34,6 +38,17 @@ const Charters = () => {
             <p className="text-gray-600">Manage and view all your charter bookings here.</p>
             <div className='flex justify-start'>
                 <button className='text-white bg-blue-800 p-2 rounded-md mt-4' onClick={handleBookings}>Explore more</button>
+            </div>
+          </div>
+        </div>
+
+
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+          <div className="p-6">
+            <h2 className="text-xl font-semibold mb-2">Charter Bookings</h2>
+            <p className="text-gray-600">Manage and view all your charter bookings here.</p>
+            <div className='flex justify-start'>
+                <button className='text-white bg-blue-800 p-2 rounded-md mt-4' onClick={handleCategory}>Explore more</button>
             </div>
           </div>
         </div>
