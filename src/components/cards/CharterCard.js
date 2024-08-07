@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Dropdown, Menu } from 'antd';
-import { MoreOutlined } from '@ant-design/icons';
+import { MoreOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import DOMPurify from 'dompurify';
 
-const CharterCard = ({ logo, name, price, description, onEdit, onDelete }) => {
+const CharterCard = ({ logo, name, price, description, onEdit, onDelete, availability }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const handleMenuClick = (e) => {
@@ -21,9 +22,27 @@ const CharterCard = ({ logo, name, price, description, onEdit, onDelete }) => {
     </Menu>
   );
 
+  const sanitizedDescription = DOMPurify.sanitize(description);
+
   return (
     <div className='relative border m-4 p-2 w-[16rem] shadow-lg rounded-lg transform transition-transform duration-300 hover:scale-105'>
-      <div className='bg-white absolute top-4 right-8 text-lg'>
+      {/* Availability Icon */}
+      <div className='absolute flex items-center space-x-2 top-4 left-4'>
+        {availability === 'yes' ? (
+          <div className='flex items-center p-1 text-xs font-semibold text-white bg-green-500 rounded-full'>
+            <CheckCircleOutlined className='text-lg font-semibold'/>
+            <span className='ml-1 mr-2'>Available</span>
+          </div>
+        ) : (
+          <div className='flex items-center p-1 text-xs font-semibold text-white bg-red-500 rounded-full'>
+            <CloseCircleOutlined className='text-lg font-semibold'/>
+            <span className='ml-1 mr-2'>Not Available</span>
+          </div>
+        )}
+      </div>
+
+      {/* Dropdown Menu */}
+      <div className='absolute text-lg bg-white rounded-lg top-4 right-4'>
         <Dropdown
           overlay={menu}
           trigger={['click']}
@@ -33,17 +52,20 @@ const CharterCard = ({ logo, name, price, description, onEdit, onDelete }) => {
           <MoreOutlined className='cursor-pointer' />
         </Dropdown>
       </div>
+
+      {/* Image and Text */}
       <div className='flex items-center justify-center'>
         <img className='w-[15rem] h-[12rem] object-cover rounded-lg' src={logo} alt='jet' />
       </div>
       <div className='p-2'>
-        <h1 className='font-mono text-xl mb-2 mt-2 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap'>
+        <h1 className='mt-2 mb-2 overflow-hidden font-mono text-xl cursor-pointer text-ellipsis whitespace-nowrap'>
           {name}
         </h1>
-        <p className='text-gray-600 text-sm mb-1'>
-          {description}
-        </p>
-        <p className='text-black text-lg font-bold'>
+        <div 
+          className='mb-1 text-sm text-gray-600'
+          dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+        />
+        <p className='text-lg font-bold text-black'>
           {price}
           <span className='text-gray-700'> / PER HOUR</span>
         </p>

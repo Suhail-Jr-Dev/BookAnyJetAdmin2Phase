@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Form, Input, Button, Upload, message, Spin } from "antd";
+import { Modal, Form, Input, Button, Upload, message, Spin, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import CharterCard from "../cards/CharterCard";
 import axios from "axios";
-import TextArea from "antd/es/input/TextArea";
+
+const { Option } = Select;
 
 const CharterCategories = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -53,6 +56,7 @@ const CharterCategories = () => {
       passengers: category.passengers,
       speed: category.speed,
       price: category.price,
+      availability: category.availability,
       description: category.description,
     });
     setFile(null);
@@ -71,6 +75,7 @@ const CharterCategories = () => {
     formData.append("passengers", values.passengers);
     formData.append("speed", values.speed);
     formData.append("price", values.price);
+    formData.append("availability", values.availability);
     formData.append("description", values.description);
 
     if (file) {
@@ -112,7 +117,7 @@ const CharterCategories = () => {
     formData.append("speed", values.speed);
     formData.append("price", values.price);
     formData.append("description", values.description);
-
+    formData.append("availability", values.availability);
     if (file) {
       formData.append("image", file);
     } else if (editingCategory && editingCategory.image) {
@@ -172,26 +177,27 @@ const CharterCategories = () => {
   return (
     <>
       <div className="flex justify-between m-2">
-        <div className="text-2xl font-bold">All Charter Categories</div>
+        <div className="ml-2 text-2xl font-bold">All Charter Categories</div>
         <button
           onClick={handleOpenAddModal}
-          className="bg-blue-800 border border-white rounded-md p-4 text-white"
+          className="p-4 text-white bg-blue-800 border border-white rounded-md"
         >
           Add Category
         </button>
       </div>
       {loading ? (
-        <div className="flex justify-center items-center h-64">
+        <div className="flex items-center justify-center h-64">
           <Spin size="large" />
         </div>
       ) : (
-        <div className="flex flex-wrap m-2 gap-4">
+        <div className="flex flex-wrap gap-4 m-2">
           {categoryData.map((category) => (
             <CharterCard
               key={category._id}
               logo={category.image}
               name={category.type}
               price={category.price}
+              availability={category.availability}
               description={category.description}
               onEdit={() => handleOpenEditModal(category)}
               onDelete={() => handleDelete(category._id)}
@@ -252,7 +258,19 @@ const CharterCategories = () => {
               { required: true, message: "Please enter a description" },
             ]}
           >
-            <TextArea />
+            <ReactQuill theme="snow" />
+          </Form.Item>
+          <Form.Item
+            label="Availability"
+            name="availability"
+            rules={[
+              { required: true, message: "Please enter availability details" },
+            ]}
+          >
+            <Select>
+              <Option value="yes">Yes</Option>
+              <Option value="no">No</Option>
+            </Select>
           </Form.Item>
           <Form.Item
             label="Upload Image"
@@ -285,71 +303,80 @@ const CharterCategories = () => {
       >
         <Form form={editForm} layout="vertical" onFinish={handleEditCategory}>
           <Form.Item
-            label="Charter Type"
-            name="type"
-            rules={[
-              { required: true, message: "Please input the category type!" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Passengers"
-            name="passengers"
-            rules={[
-              {
-                required: true,
-                message:
-                  "Please enter the number of passengers it can accommodate!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Speed per hour"
-            name="speed"
-            rules={[{ required: true, message: "Please enter speed details" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Price"
-            name="price"
-            rules={[{ required: true, message: "Please enter the price" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[
-              { required: true, message: "Please enter a description" },
-            ]}
-          >
-            <TextArea />
-          </Form.Item>
-          <Form.Item
-            label="Upload Image (optional)"
-            name="image"
-          >
-            <Upload
-              customRequest={handleFileChange}
-              showUploadList={false}
-              accept="image/*"
-            >
-              <Button icon={<UploadOutlined />}>Upload New Image</Button>
-            </Upload>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading}>
-              Update Category
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-    </>
-  );
+        label="Charter Type"
+        name="type"
+        rules={[
+          { required: true, message: "Please input the category type!" },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Passengers"
+        name="passengers"
+        rules={[
+          {
+            required: true,
+            message:
+              "Please enter the number of passengers it can accommodate!",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Speed per hour"
+        name="speed"
+        rules={[{ required: true, message: "Please enter speed details" }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Price"
+        name="price"
+        rules={[{ required: true, message: "Please enter the price" }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Description"
+        name="description"
+        rules={[
+          { required: true, message: "Please enter a description" },
+        ]}
+      >
+        <ReactQuill theme="snow" />
+      </Form.Item>
+      <Form.Item
+        label="Availability"
+        name="availability"
+        rules={[
+          { required: true, message: "Please enter availability details" },
+        ]}
+      >
+        <Select>
+          <Option value="yes">Yes</Option>
+          <Option value="no">No</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item label="Upload Image" name="image">
+        <Upload
+          customRequest={handleFileChange}
+          showUploadList={false}
+          accept="image/*"
+        >
+          <Button icon={<UploadOutlined />}>Upload Image</Button>
+        </Upload>
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" loading={loading}>
+          Edit Category
+        </Button>
+      </Form.Item>
+    </Form>
+  </Modal>
+</>
+);
 };
 
-export default CharterCategories;
+export default CharterCategories
