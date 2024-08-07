@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Form, Input, Button, Upload, message, Spin, Select } from "antd";
-import { Modal, Form, Input, Button, Upload, message, Spin, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -81,7 +80,6 @@ const CharterCategories = () => {
     formData.append("speed", values.speed);
     formData.append("price", values.price);
     formData.append("availability", values.availability);
-    formData.append("availability", values.availability);
     formData.append("description", values.description);
 
     if (file) {
@@ -123,7 +121,6 @@ const CharterCategories = () => {
     formData.append("speed", values.speed);
     formData.append("price", values.price);
     formData.append("description", values.description);
-    formData.append("availability", values.availability);
     formData.append("availability", values.availability);
     if (file) {
       formData.append("image", file);
