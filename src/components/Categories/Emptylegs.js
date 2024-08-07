@@ -19,7 +19,7 @@ const Emptylegs = () => {
         {/* Charter Categories Card */}
         <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
           <div className="p-6">
-            <h2 className="text-xl font-semibold mb-2">Emptylegs Categories</h2>
+            <h2 className="text-xl font-semibold mb-2">Add Emptylegs</h2>
             <p className="text-gray-600">Explore various categories of charters available.</p>
             <div className='flex justify-start'>
               <button className='text-white bg-purple-600 p-2 rounded-md mt-4' onClick={handleCategories}>Explore more</button>

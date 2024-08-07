@@ -3,6 +3,7 @@ import { Dropdown, Menu } from 'antd';
 import { MoreOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import DOMPurify from 'dompurify';
 
+
 const CharterCard = ({ logo, name, price, description, onEdit, onDelete, availability }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
@@ -54,11 +55,14 @@ const CharterCard = ({ logo, name, price, description, onEdit, onDelete, availab
       </div>
 
       {/* Image and Text */}
+
+      {/* Image and Text */}
       <div className='flex items-center justify-center'>
         <img className='w-[15rem] h-[12rem] object-cover rounded-lg' src={logo} alt='jet' />
       </div>
       <div className='p-2'>
         <h1 className='mt-2 mb-2 overflow-hidden font-mono text-xl cursor-pointer text-ellipsis whitespace-nowrap'>
+       
           {name}
         </h1>
         <div 
