@@ -59,7 +59,7 @@ const Layout = ({ children }) => {
                   Dashboard
                 </Link>
               </li>
-              <li className="border-t border-gray-700 mt-2 pt-2 ">
+              {/* <li className="border-t border-gray-700 mt-2 pt-2 ">
                 <button
                   onClick={toggleCategory}
                   className="w-full text-left px-4 py-2 text-lg font-semibold  hover:bg-gray-500 hover:text-white flex justify-between items-center ransition-all duration-300 ease-in-out"
@@ -91,7 +91,7 @@ const Layout = ({ children }) => {
                     </Link>
                   </li>
                 </ul>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </aside>

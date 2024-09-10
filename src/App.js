@@ -13,6 +13,7 @@ import RegisterForm from './components/Categories/RegisterForm';
 import { PrivateRoute } from './ProtectedRoute'
 import ChCategory from './components/Categories/ChCategory';
 import SubCategory from './components/Categories/SubCategory';
+import Category from './pages/Category';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ const AppContent = () => {
         <Route path="/emptylegbookings" element={<PrivateRoute><EmptylegsBooking /></PrivateRoute>} />
         <Route path="/chartersCategory" element={<PrivateRoute><ChCategory /></PrivateRoute>} />
         <Route path="/subcategory/:charterType" element={<SubCategory />} />
+        <Route path="/category/:section" element={ <Category/>} /> {/* New route */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Layout>
