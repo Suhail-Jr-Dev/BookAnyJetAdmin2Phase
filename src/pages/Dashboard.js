@@ -134,19 +134,25 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
 
+
+  // Checking is Admin or Not
+
+
+  let isRole =  localStorage.getItem('role') == 'super-admin' ? true : false
+
   return (
     <div className="p-6">
       <div className="flex justify-between">
         <div>
           <h1 className="mb-4 text-2xl font-bold">
-            Welcome to the Admin Panel
+            Welcome to the  {localStorage.getItem('role') || 'Control'} Panel
           </h1>
           <p className="mb-8">
             Manage all your Charter and Emptyleg related details and view
             related analytics and bookings.
           </p>
         </div>
-        <div>
+        <div className={`${isRole ? 'flex' : 'hidden'}`}>
           <Button
             type="primary"
             className="bg-sky-700"

@@ -81,12 +81,17 @@ const Category = () => {
     setFile(null);
   };
 
+
+  // suhail 
+
+
+
   return (
     <div className="p-6">
       <div className="flex justify-between mb-2">
         <h1 className="mb-4 text-2xl font-bold">{section} Categories</h1>
         <button
-          className="bg-sky-700 text-white p-2 rounded-lg"
+          className={` ${localStorage.getItem('role') == 'user-admin' ? 'hidden' : 'flex'} bg-sky-700 text-white p-2 rounded-lg`}
           onClick={showModal}
         >
           Add Category
