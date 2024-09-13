@@ -67,7 +67,10 @@ const Login = () => {
             >
               Login
             </button>
-            <Link to={"/register"}>cnsdnc</Link>
+            <div className='flex gap-2'>
+              <h3>Dont have an account ?</h3>
+              <Link className='text-blue-600 font-semibold hover:underline' to={"/register"}>Register here</Link>
+            </div>
           </div>
         </Form>
       </div>

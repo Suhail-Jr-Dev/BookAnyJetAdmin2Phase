@@ -12,8 +12,8 @@ import EmptylegsBooking from './components/Categories/EmptylegsBooking';
 import RegisterForm from './components/Categories/RegisterForm';
 import { PrivateRoute } from './ProtectedRoute'
 import ChCategory from './components/Categories/ChCategory';
-import SubCategory from './components/Categories/SubCategory';
 import Category from './pages/Category';
+import SubCategory from './pages/SubCategory';
 
 function App() {
   return (
@@ -51,8 +51,8 @@ const AppContent = () => {
         <Route path="/chartersAllCategories" element={<PrivateRoute><CharterCategories /></PrivateRoute>} />
         <Route path="/chartersBookings" element={<PrivateRoute><Bookings /></PrivateRoute>} />
         <Route path="/emptylegbookings" element={<PrivateRoute><EmptylegsBooking /></PrivateRoute>} />
+        <Route path="/explore/:section/:category" element={<SubCategory />} />
         <Route path="/chartersCategory" element={<PrivateRoute><ChCategory /></PrivateRoute>} />
-        <Route path="/subcategory/:charterType" element={<SubCategory />} />
         <Route path="/category/:section" element={ <Category/>} /> {/* New route */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
