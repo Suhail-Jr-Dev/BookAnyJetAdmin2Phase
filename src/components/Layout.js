@@ -50,19 +50,19 @@ const Layout = ({ children }) => {
   return (
     <div className="flex ">
       {isSideBrOpen ? (
-        <aside className="min-w-[10rem] w-[12rem] bg-gray-50 border shadow-md text-black h-[250vh] transition-all duration-300 ease-in-out overflow-hidden">
-          <div className="flex justify-around py-4 cursor-pointer">
-            <h2 className="text-[1rem] font-bold">  {localStorage.getItem('role') || 'Control'} Panel </h2>
-            <GiHamburgerMenu className="text-2xl w-[1rem] " onClick={() => setSideBrOpen(false)} />
+        <aside className="w-64 min-h-screen overflow-hidden text-black transition-all duration-300 ease-in-out border shadow-md bg-gray-50">
+          <div className="flex items-center justify-between p-4 cursor-pointer">
+            <h2 className="text-2xl font-bold">  {localStorage.getItem('role') || 'Control'} Panel </h2>
+            <GiHamburgerMenu className="text-2xl" onClick={() => setSideBrOpen(false)} />
           </div>
           <nav className="mt-6">
             <ul className="space-y-2">
               <li>
                 <Link
                   to={"/dashboard"}
-                  className="px-4 py-2 w-[100%] hover:bg-gray-500 hover:text-white flex items-center ransition-all duration-300 ease-in-out"
+                  className="flex items-center px-4 py-2 duration-300 ease-in-out hover:bg-gray-500 hover:text-white ransition-all"
                 >
-                  <MdDashboard className="m-2 min-w-[1rem] " />
+                  <MdDashboard className="m-2" />
                   Dashboard
                 </Link>
               </li>
@@ -75,16 +75,30 @@ const Layout = ({ children }) => {
                   Users
                 </Link>
               </li>
+
+
+
+              <li className={`${localStorage.getItem('role') == 'super-admin' ? 'flex' : 'hidden'}`}>
+                <Link
+                  to={"/logs"}
+                  className="px-4 py-2 w-[100%] hover:bg-gray-500 hover:text-white flex items-center ransition-all duration-300 ease-in-out"
+                >
+                  <FaUsersGear className="m-2" />
+                  Website Logs
+                </Link>
+              </li>
+
             </ul>
           </nav>
         </aside>
       ) : (
-        <aside className={`min-w-[3rem]  text-white h-[138vh] flex flex-col items-center transition-all duration-300 ease-in-out overflow-hidden shadow-2xl`}>
+        <aside className={`w-12  text-white min-h-screen flex flex-col items-center transition-all duration-300 ease-in-out overflow-hidden shadow-2xl`}>
           <div className="p-4 cursor-pointer ">
             <GiHamburgerMenu className="text-2xl text-black" onClick={() => setSideBrOpen(true)} />
           </div>
         </aside>
       )}
+
       <div className="flex flex-col flex-1">
         <header className={`${getHeaderColor()} p-4 text-white shadow-md flex justify-between items-center mx-1`}>
           <div className="container flex items-center justify-between mx-auto space-x-4">
