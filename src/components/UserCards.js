@@ -51,6 +51,8 @@ function UserCards({ props }) {
                     onClick={(e) => {
                         props.setUpdateUserId(props._id);
                         props.setFormOpener(true); 
+                        props.setChangeForm(true)
+                        // console.log()
                         console.log(props._id) // Changed setFromOpener to setFormOpener
                     }}
                 >
