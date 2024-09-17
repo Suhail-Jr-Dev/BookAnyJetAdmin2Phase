@@ -4,7 +4,7 @@ export const PrivateRoute = ({ children }) => {
     let isAuthenticated = false;
 
 
-    if(localStorage.getItem('admin')){
+    if(localStorage.getItem('user')){
         isAuthenticated = true
     }
 

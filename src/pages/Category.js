@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UploadOutlined } from "@ant-design/icons";
 import { Spin, Card, Button, Upload, message, Modal, Form, Input } from "antd";
 
@@ -11,6 +11,7 @@ const Category = () => {
   const [file, setFile] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -81,12 +82,16 @@ const Category = () => {
     setFile(null);
   };
 
+  const handleExploreMore = (categoryType) => {
+    navigate(`/explore/${section}/${categoryType}`);
+  };
+
   return (
     <div className="p-6">
       <div className="flex justify-between mb-2">
         <h1 className="mb-4 text-2xl font-bold">{section} Categories</h1>
         <button
-          className="bg-sky-700 text-white p-2 rounded-lg"
+          className={` ${localStorage.getItem('role') == 'user-admin' ? 'hidden' : 'flex'} bg-sky-700 text-white p-2 rounded-lg`}
           onClick={showModal}
         >
           Add Category
@@ -107,7 +112,14 @@ const Category = () => {
                     src={category?.image || ""}
                   />
                 }
-                actions={[<Button type="primary">Explore More</Button>]}
+                actions={[
+                  <Button
+                    type="primary"
+                    onClick={() => handleExploreMore(category.chartertype)}
+                  >
+                    Explore More
+                  </Button>,
+                ]}
               >
                 <Card.Meta
                   title={category?.chartertype || "No Title"}

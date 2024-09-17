@@ -4,6 +4,9 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdDashboard } from "react-icons/md";
 import { MdOutlineCategory } from "react-icons/md";
 import { FaAngleDoubleDown } from "react-icons/fa";
+import { message } from "antd";
+
+import { FaUsersGear } from "react-icons/fa6";
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
@@ -11,10 +14,10 @@ const Layout = ({ children }) => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isSideBrOpen, setSideBrOpen] = useState(false);
 
-  const user = { name: "Sambit" };
+  const user = { name: localStorage.getItem('user') };
 
   const handleLogout = () => {
-    localStorage.removeItem('admin')
+    localStorage.removeItem('user')
     navigate("/login");
   };
 
@@ -40,12 +43,16 @@ const Layout = ({ children }) => {
 
 
 
+  // let isRole = localStorage.getItem('role') == 'operator' ||  localStorage.getItem('role') == 'admin'  ? true : false
+
+
+
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex ">
       {isSideBrOpen ? (
         <aside className="w-64 min-h-screen overflow-hidden text-black transition-all duration-300 ease-in-out border shadow-md bg-gray-50">
           <div className="flex items-center justify-between p-4 cursor-pointer">
-            <h2 className="text-2xl font-bold">Admin Panel </h2>
+            <h2 className="text-2xl font-bold">  {localStorage.getItem('role') || 'Control'} Panel </h2>
             <GiHamburgerMenu className="text-2xl" onClick={() => setSideBrOpen(false)} />
           </div>
           <nav className="mt-6">
@@ -59,53 +66,16 @@ const Layout = ({ children }) => {
                   Dashboard
                 </Link>
               </li>
-
-              <li>
+              <li className={`${localStorage.getItem('role') == 'super-admin' ? 'flex' : 'hidden'}`}>
                 <Link
-                  to={"/logs"}
-                  className="flex items-center px-4 py-2 duration-300 ease-in-out hover:bg-gray-500 hover:text-white ransition-all"
+                  to={"/users"}
+                  className="px-4 py-2 w-[100%] hover:bg-gray-500 hover:text-white flex items-center ransition-all duration-300 ease-in-out"
                 >
-                  <MdDashboard className="m-2" />
-                  Logs
+                  <FaUsersGear className="m-2" />
+                  Users
                 </Link>
               </li>
 
-
-
-
-              {/* <li className="pt-2 mt-2 border-t border-gray-700 ">
-                <button
-                  onClick={toggleCategory}
-                  className="flex items-center justify-between w-full px-4 py-2 text-lg font-semibold text-left duration-300 ease-in-out hover:bg-gray-500 hover:text-white ransition-all"
-                >
-                  <div className="flex items-center justify-center ">
-                    <MdOutlineCategory className="m-2 " />
-                    Category
-                  </div>
-                  <FaAngleDoubleDown />
-                </button>
-                <ul
-                  className={`transition-all duration-300 ease-in-out overflow-hidden ${isCategoryOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
-                    } space-y-2 pl-4`}
-                >
-                  <li className="ml-6">
-                    <Link
-                      to={"/charters"}
-                      className="block px-4 py-2 transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white rounded-2xl "
-                    >
-                      Charters
-                    </Link>
-                  </li>
-                  <li className="ml-6">
-                    <Link
-                      to={"/emptylegs"}
-                      className="block px-4 py-2 transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white rounded-2xl"
-                    >
-                      Emptylegs
-                    </Link>
-                  </li>
-                </ul>
-              </li> */}
             </ul>
           </nav>
         </aside>
@@ -120,7 +90,7 @@ const Layout = ({ children }) => {
       <div className="flex flex-col flex-1">
         <header className={`${getHeaderColor()} p-4 text-white shadow-md flex justify-between items-center mx-1`}>
           <div className="container flex items-center justify-between mx-auto space-x-4">
-            <h1 className="text-xl font-bold">Admin Panel</h1>
+            <h1 className="text-xl font-bold">{localStorage.getItem('role') || 'Control'}  Panel </h1>
             <div>
               {user ? (
                 <div className="flex items-center ml-auto space-x-4">
