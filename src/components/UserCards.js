@@ -45,13 +45,27 @@ function UserCards({ props }) {
 
             </div>
 
-            <div className=' flex gap-10 font-semibold text-white'>
-                <button className=' bg-green-600 w-[40%] h-[2rem] rounded-sm hover:scale-105 transition-all duration-300' >Edit</button>
-                <button className=' bg-red-600 w-[40%] h-[2rem] rounded-sm hover:scale-105 transition-all duration-300' onClick={(e) => {
-                    console.log(e._id);
-                    props.setUserId(props._id);
-                }} >Delete</button>
+            <div className='flex gap-10 font-semibold text-white'>
+                <button
+                    className='bg-green-600 w-[40%] h-[2rem] rounded-sm hover:scale-105 transition-all duration-300'
+                    onClick={(e) => {
+                        props.setUpdateUserId(props._id);
+                        props.setFormOpener(true); 
+                        console.log(props._id) // Changed setFromOpener to setFormOpener
+                    }}
+                >
+                    Edit
+                </button>
+                <button
+                    className='bg-red-600 w-[40%] h-[2rem] rounded-sm hover:scale-105 transition-all duration-300'
+                    onClick={() => {
+                        props.setDeleteUserId(props._id);
+                    }}
+                >
+                    Delete
+                </button>
             </div>
+
 
 
 

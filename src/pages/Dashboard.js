@@ -148,7 +148,7 @@ const Dashboard = () => {
             Welcome to the  {localStorage.getItem('role') || 'Control'} Panel
           </h1>
           <p className="mb-8">
-            Manage all your Charter and Emptyleg related details and view
+            Manage all your Charter related details and view
             related analytics and bookings.
           </p>
         </div>

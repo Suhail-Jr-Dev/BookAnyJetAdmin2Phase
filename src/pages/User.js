@@ -1,90 +1,90 @@
 import { message } from 'antd';
 import axios from 'axios';
-import Block from 'quill/blots/block';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import UserCards from '../components/UserCards';
 
 function User() {
 
     const [formOpener, setFormOpener] = useState(false);
-    let formOpenerFun = () => {
-        formOpener ? setFormOpener(false) : setFormOpener(true);
-        console.log(formOpener)
-    }
+    const formOpenerFun = () => setFormOpener(prev => !prev);
 
-    // State for form inputs
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('broker');
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = {
-            name,
-            email,
-            password,
-            role,
-        };
+        const formData = { name, email, password, role };
 
         try {
             await axios.post('http://localhost:8000/api/admin/register', formData);
-            setName('')
-            setEmail('')
-            setPassword('')
-            setFormOpener(false)
-            message.success('User Registered !!!')
-            getUsers(); // Calling an get User's API Every time the new user is registered
+            setName('');
+            setEmail('');
+            setPassword('');
+            setFormOpener(false);
+            message.success('User Registered !!!');
+            getUsers();
+        } catch (error) {
+            message.error('Failed to register user');
         }
-        catch (error) {
-            // message.error(error);
-        }
-        // console.log(formData);
     };
 
-    const [Users, setUsers] = useState(null); // Initialize as null or an empty array if you prefer
+    const [users, setUsers] = useState(null);
 
-    let getUsers = async () => {
+    const getUsers = async () => {
         try {
-            try {
-                let response = await axios.get('http://localhost:8000/api/admin/getalladmins');
-                    setUsers(response.data); // Assuming response.data is the correct data structure
-            }
-            catch (error) {
-                setUsers(null)
-            }
-            // console.log(response.data.data[0] = { ...response.data.data[0], 'age': 20 })
+            const response = await axios.get('http://localhost:8000/api/admin/getalladmins');
+            setUsers(response.data); 
         } catch (error) {
+            setUsers(null);
             console.error('Error fetching users:', error);
         }
     };
 
-
     const [deleteUserId, setDeleteUserId] = useState('');
-    // console.log(deleteUserId);
+    const [updateUserId, setUpdateUserId] = useState('');
 
     useEffect(() => {
-        const deleteUser = async () => {
-            if (deleteUserId) {
-                console.log('hai suhail');
+        if (deleteUserId) {
+            const deleteUser = async () => {
                 try {
                     await axios.delete(`http://localhost:8000/api/admin/deleteadmin/${deleteUserId}`);
-                    getUsers(); // Refresh the user list after successful deletion
+                    getUsers();
                 } catch (error) {
                     console.error('Error deleting user:', error);
                 }
+            };
+            deleteUser();
+        }
+    }, [deleteUserId]);
+
+    useEffect(() => {
+        const updateUser = async () => {
+            if (updateUserId && users) {
+                const response = users.data.filter((e) => e._id === updateUserId);
+                if (response.length > 0) {
+                    setName(response[0].name);
+                    setEmail(response[0].email);
+                    setPassword(response[0].password);
+
+                    const formData = { name, email, password, role };
+
+                    try {
+                        await axios.put(`http://localhost:8000/api/admin/updateuserrolebyid/${updateUserId}`, formData);
+                        getUsers();
+                    } catch (error) {
+                        console.error('Error updating user:', error);
+                    }
+                }
             }
         };
-
-        deleteUser();
-    }, [deleteUserId]);
+        updateUser();
+    }, [updateUserId, users]);
 
     useEffect(() => {
         getUsers();
     }, []);
-
-
 
     return (
         <div>
@@ -102,67 +102,46 @@ function User() {
                 </button>
             </div>
 
-            <div className={` ${formOpener ? 'flex' : 'hidden'} absolute w-[80%] py-10 `}>
-
-                <form class="max-w-sm mx-auto w-[80%] bg-gray-400 p-5 rounded-lg" onSubmit={handleSubmit} >
-                    <div class="mb-5">
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Name</label>
-                        <input type="text" id="name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required onChange={(e) => setName(e.target.value)} value={name} />
-
+            <div className={`absolute w-[70%] py-10 transition-all duration-1000 ${formOpener ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'}`}>
+                <form className="max-w-sm mx-auto w-[80%] bg-gray-400 p-5 rounded-lg" onSubmit={handleSubmit}>
+                    <div className="mb-5">
+                        <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                        <input type="text" id="name" required value={name} onChange={(e) => setName(e.target.value)}
+                               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
                     </div>
-                    <div class="mb-5">
-                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Email</label>
-                        <input type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Email" required onChange={(e) => setEmail(e.target.value)}
-                        value={email} />
+                    <div className="mb-5">
+                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        <input type="email" id="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
                     </div>
-                    <div class="mb-5">
-                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">password</label>
-                        <input type="password" id="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required onChange={(e) => setPassword(e.target.value)} value={password} />
+                    <div className="mb-5">
+                        <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                        <input type="password" id="password" required value={password} onChange={(e) => setPassword(e.target.value)}
+                               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
                     </div>
-
-                    <div class="max-w-sm mx-auto">
-                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Role</label>
-                        <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => setRole(e.target.value)}>
-
-                            <option value={'broker'}>broker</option>
-                            <option value={'operator'}>operator</option>
-                            <option value={'super-admin'}>super-admin</option>
-                            <option value={'user-admin'}>user-admin</option>
-
+                    <div className="max-w-sm mx-auto">
+                        <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Role</label>
+                        <select id="role" value={role} onChange={(e) => setRole(e.target.value)}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
+                            <option value="broker">Broker</option>
+                            <option value="operator">Operator</option>
+                            <option value="super-admin">Super Admin</option>
+                            <option value="user-admin">User Admin</option>
                         </select>
                     </div>
-
-
-
-
-                    <button type="submit" class="text-white my-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create new Role </button>
+                    <button type="submit" className="text-white my-4 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">
+                        Create new Role
+                    </button>
                 </form>
-
-
-
             </div>
 
-
-            <div className=' flex  flex-wrap items-center justify-evenly gap-10 p-8 my-10'>
-
-
-                {
-                    Users?.data?.map((data) => (
-                        // console.log(...data)
-                        <UserCards key={data.id} props={{ ...data, 'setUserId': setDeleteUserId }} />
-                    ))
-                }
-
-
-
-
-
+            <div className='flex flex-wrap items-center justify-start gap-10 p-8 my-10'>
+                {users?.data?.map((data) => (
+                    <UserCards key={data._id} props={{ ...data, setDeleteUserId, setUpdateUserId, setFormOpener }} />
+                ))}
             </div>
-
-
-
         </div>
-    )
+    );
 }
 
-export default User
+export default User;
