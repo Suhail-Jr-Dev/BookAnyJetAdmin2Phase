@@ -14,7 +14,7 @@ import { PrivateRoute } from './ProtectedRoute'
 import ChCategory from './components/Categories/ChCategory';
 import SubCategory from './components/Categories/SubCategory';
 import Category from './pages/Category';
-
+import Logs from './components/Categories/Logs';
 function App() {
   return (
     <Router>
@@ -45,7 +45,8 @@ const AppContent = () => {
             <Charters />
           </PrivateRoute>
         }
-        />
+        /> 
+         <Route path="/logs" element={<Logs/>}/>
         <Route path="/emptylegs" element={<PrivateRoute><Emptylegs /></PrivateRoute>} />
         <Route path="/emptylegsAllCategories" element={<PrivateRoute><EmptylegsCategories /></PrivateRoute>} />
         <Route path="/chartersAllCategories" element={<PrivateRoute><CharterCategories /></PrivateRoute>} />
