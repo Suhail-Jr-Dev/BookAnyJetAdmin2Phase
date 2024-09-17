@@ -13,6 +13,7 @@ import RegisterForm from './components/Categories/RegisterForm';
 import { PrivateRoute } from './ProtectedRoute'
 import ChCategory from './components/Categories/ChCategory';
 import Category from './pages/Category';
+import User from './pages/User';
 import SubCategory from './pages/SubCategory';
 
 function App() {
@@ -46,6 +47,15 @@ const AppContent = () => {
           </PrivateRoute>
         }
         />
+
+        <Route path="/users" element={
+          <PrivateRoute>
+            <User />
+          </PrivateRoute>
+        }
+        />
+
+
         <Route path="/emptylegs" element={<PrivateRoute><Emptylegs /></PrivateRoute>} />
         <Route path="/emptylegsAllCategories" element={<PrivateRoute><EmptylegsCategories /></PrivateRoute>} />
         <Route path="/chartersAllCategories" element={<PrivateRoute><CharterCategories /></PrivateRoute>} />
@@ -53,8 +63,13 @@ const AppContent = () => {
         <Route path="/emptylegbookings" element={<PrivateRoute><EmptylegsBooking /></PrivateRoute>} />
         <Route path="/explore/:section/:category" element={<SubCategory />} />
         <Route path="/chartersCategory" element={<PrivateRoute><ChCategory /></PrivateRoute>} />
-        <Route path="/category/:section" element={ <Category/>} /> {/* New route */}
+        <Route path="/subcategory/:charterType" element={<SubCategory />} />
+        <Route path="/category/:section" element={<Category />} /> {/* New route */}
         <Route path="*" element={<Navigate to="/login" />} />
+
+
+
+
       </Routes>
     </Layout>
   ) : (
