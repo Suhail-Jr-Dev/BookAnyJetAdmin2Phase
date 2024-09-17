@@ -2,7 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { UploadOutlined } from "@ant-design/icons";
-import { Spin, Card, Button, Upload, Select , DatePicker , message, Modal, Form, Input } from "antd";
+import {
+  Spin,
+  Card,
+  Button,
+  Upload,
+  Select,
+  DatePicker,
+  message,
+  Modal,
+  Form,
+  Input,
+} from "antd";
 
 const Category = () => {
   const { section, category } = useParams();
@@ -20,6 +31,7 @@ const Category = () => {
         const response = await axios.post(
           `http://localhost:8000/api/admin/filterbytypeandcategory/${section}/${category}`
         );
+        console.log(category);
         setCategories(response.data.data);
       } catch (err) {
         console.error(err);
@@ -29,7 +41,7 @@ const Category = () => {
     };
 
     fetchCategories();
-  }, [section]);
+  }, [section, category]);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -42,11 +54,11 @@ const Category = () => {
   const handleOk = async () => {
     try {
       const values = await form.validateFields();
-  
+
       // Creating FormData object to append all the required fields
       const formData = new FormData();
       formData.append("section", section);
-      formData.append("chartertype", values.chartertype);
+      formData.append("chartertype", category);
       formData.append("description", values.description);
       formData.append("subCategoryName", values.subCategoryName);
       formData.append("pax", values.pax);
@@ -82,11 +94,11 @@ const Category = () => {
       formData.append("operatorname", values.operatorname);
       formData.append("operatoremail", values.operatoremail);
       formData.append("operatorphone", values.operatorphone);
-  
+
       if (file) {
-        formData.append("image", file);  // Append image file if available
+        formData.append("image", file); // Append image file if available
       }
-  
+
       // Make the API request to add the subcategory
       const response = await axios.post(
         "http://localhost:8000/api/admin/addsubcategory",
@@ -97,21 +109,20 @@ const Category = () => {
           },
         }
       );
-  
+
       message.success("Subcategory added successfully");
-  
+
       // Reset form and modal state
       form.resetFields();
       setFile(null);
       setIsModalVisible(false);
-  
+
       window.location.reload();
     } catch (err) {
       console.error("Error:", err);
       message.error("Failed to add subcategory. Please try again.");
     }
   };
-  
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -175,8 +186,11 @@ const Category = () => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <Form form={form} layout="vertical" initialValues={{ section }}>
-          {/* Existing fields */}
+        <Form
+          form={form}
+          layout="vertical"
+          initialValues={{ section, chartertype: category }}
+        >
           <Form.Item
             name="section"
             label="Section"
@@ -192,7 +206,7 @@ const Category = () => {
               { required: true, message: "Please input the charter type!" },
             ]}
           >
-            <Input placeholder="Enter charter type" />
+            <Input value={category} readOnly />
           </Form.Item>
 
           <Form.Item
