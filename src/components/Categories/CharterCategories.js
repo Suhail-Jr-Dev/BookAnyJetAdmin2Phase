@@ -26,7 +26,7 @@ const CharterCategories = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:8000/api/admin/getallcategories"
+          "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getallcategories"
         );
         setCategoryData(response.data.data);
       } catch (err) {
@@ -89,7 +89,7 @@ const CharterCategories = () => {
     try {
       setLoading(true);
       await axios.post(
-        "http://localhost:8000/api/admin/addchartercategory",
+        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/addchartercategory",
         formData,
         {
           headers: {
@@ -100,7 +100,7 @@ const CharterCategories = () => {
       message.success("Charter added successfully");
 
       const response = await axios.get(
-        "http://localhost:8000/api/admin/getallcategories"
+        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getallcategories"
       );
 
       handleCloseAddModal();
@@ -131,7 +131,7 @@ const CharterCategories = () => {
     try {
       setLoading(true);
       await axios.put(
-        `http://localhost:8000/api/admin/editcharterbyid/${editingCategory._id}`,
+        `https://privatejetcharters-server-ttz1.onrender.com/api/admin/editcharterbyid/${editingCategory._id}`,
         formData,
         {
           headers: {
@@ -142,7 +142,7 @@ const CharterCategories = () => {
       message.success("Charter updated successfully");
 
       const response = await axios.get(
-        "http://localhost:8000/api/admin/getallcategories"
+        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getallcategories"
       );
 
       handleCloseEditModal();
@@ -159,11 +159,11 @@ const CharterCategories = () => {
     try {
       setLoading(true);
       await axios.delete(
-        `http://localhost:8000/api/admin/deletecharterbyid/${id}`
+        `https://privatejetcharters-server-ttz1.onrender.com/api/admin/deletecharterbyid/${id}`
       );
       message.success("Charter deleted successfully");
       const response = await axios.get(
-        "http://localhost:8000/api/admin/getallcategories"
+        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getallcategories"
       );
       setCategoryData(response.data.data);
     } catch (err) {

@@ -12,7 +12,7 @@ const RegisterForm = () => {
             email: emailformdata,
             password: passwordformdata,
         };
-        const url = 'http://localhost:8000/api/admin/register';
+        const url = 'https://privatejetcharters-server-ttz1.onrender.com/api/admin/register';
         try {
             const response = await axios.post(url, payLoad, {
                 headers: {

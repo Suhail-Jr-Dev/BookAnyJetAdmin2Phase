@@ -24,7 +24,7 @@ const EmptylegsCategories = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:8000/api/admin/getallemptylegs"
+          "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getallemptylegs"
         );
         setCategoryData(response.data.data);
       } catch (err) {
@@ -92,7 +92,7 @@ const EmptylegsCategories = () => {
     try {
       setLoading(true);
       await axios.post(
-        "http://localhost:8000/api/admin/addemptylegs",
+        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/addemptylegs",
         formData,
         {
           headers: {
@@ -103,7 +103,7 @@ const EmptylegsCategories = () => {
       message.success("Charter added successfully");
 
       const response = await axios.get(
-        "http://localhost:8000/api/admin/getallemptylegs"
+        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getallemptylegs"
       );
 
       handleCloseAddModal();
@@ -138,7 +138,7 @@ const EmptylegsCategories = () => {
     try {
       setLoading(true);
       await axios.put(
-        `http://localhost:8000/api/admin/editemptylegsbyid/${editingCategory._id}`,
+        `https://privatejetcharters-server-ttz1.onrender.com/api/admin/editemptylegsbyid/${editingCategory._id}`,
         formData,
         {
           headers: {
@@ -149,7 +149,7 @@ const EmptylegsCategories = () => {
       message.success("Charter updated successfully");
 
       const response = await axios.get(
-        "http://localhost:8000/api/admin/getallemptylegs"
+        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getallemptylegs"
       );
 
       handleCloseEditModal();
@@ -166,11 +166,11 @@ const EmptylegsCategories = () => {
     try {
       setLoading(true);
       await axios.delete(
-        `http://localhost:8000/api/admin/deleteemptylegsbyid/${id}`
+        `https://privatejetcharters-server-ttz1.onrender.com/api/admin/deleteemptylegsbyid/${id}`
       );
       message.success("Charter deleted successfully");
       const response = await axios.get(
-        "http://localhost:8000/api/admin/getallemptylegs"
+        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getallemptylegs"
       );
       setCategoryData(response.data.data);
     } catch (err) {
@@ -188,20 +188,20 @@ const EmptylegsCategories = () => {
   return (
     <>
       <div className="flex justify-between m-2">
-        <div className="text-2xl font-bold ml-2">All Emptyleg Details</div>
+        <div className="ml-2 text-2xl font-bold">All Emptyleg Details</div>
         <button
           onClick={handleOpenAddModal}
-          className="bg-blue-800 border border-white rounded-md p-4 text-white"
+          className="p-4 text-white bg-blue-800 border border-white rounded-md"
         >
           Add an Emptyleg
         </button>
       </div>
       {loading ? (
-        <div className="flex justify-center items-center h-64">
+        <div className="flex items-center justify-center h-64">
           <Spin size="large" />
         </div>
       ) : (
-        <div className="flex flex-wrap m-2 gap-4">
+        <div className="flex flex-wrap gap-4 m-2">
           {categoryData.map((category) => (
             <CharterCard
               key={category._id}

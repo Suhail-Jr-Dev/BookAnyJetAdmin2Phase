@@ -18,7 +18,7 @@ const Category = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:8000/api/admin/categorybytype/${section}`
+          `https://privatejetcharters-server-ttz1.onrender.com/api/admin/categorybytype/${section}`
         );
         setCategories(response.data.data);
       } catch (err) {
@@ -52,7 +52,7 @@ const Category = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:8000/api/admin/addmodifycategory",
+        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/addmodifycategory",
         formData,
         {
           headers: {
@@ -102,7 +102,7 @@ const Category = () => {
           <Spin size="large" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {categories.map((category, index) => (
             <div key={category?._id ?? index} className="p-4">
               <Card

@@ -14,7 +14,7 @@ const Bookings = () => {
 
     const deleteHandler = async (id) => {
         try {
-            let URL = `http://localhost:8000/api/admin/deletebookingbyid/${id}`;
+            let URL = `https://privatejetcharters-server-ttz1.onrender.com/api/admin/deletebookingbyid/${id}`;
             console.log("Deleting booking with ID:", id);
             await axios.delete(URL);
             message.success('Data deleted successfully');
@@ -27,7 +27,7 @@ const Bookings = () => {
 
     let fetchData = async () => {
         try {
-            const URL = 'http://localhost:8000/api/admin/getallbookings';
+            const URL = 'https://privatejetcharters-server-ttz1.onrender.com/api/admin/getallbookings';
             let resObj = await axios.get(URL);
             let arrayOfData = resObj.data.data.map((element, index) => {
                 return {
@@ -73,7 +73,7 @@ const Bookings = () => {
 
     const sortedResult = async () => {
         try {
-            const url = 'http://localhost:8000/api/admin/sorted';
+            const url = 'https://privatejetcharters-server-ttz1.onrender.com/api/admin/sorted';
             const payload = {
                 from: fromDate,
                 to: toDate,
@@ -275,9 +275,9 @@ const Bookings = () => {
 
     return (
         <div>
-            <h1 className='text-4xl m-4 p-3'>All Charter Booking</h1>
+            <h1 className='p-3 m-4 text-4xl'>All Charter Booking</h1>
 
-            <div id="datePicker" className='flex justify-around gap-2 items-center m-8 h-16'>
+            <div id="datePicker" className='flex items-center justify-around h-16 gap-2 m-8'>
                 <form method="post" className='flex items-center justify-center w-[50%] h-[100%] text-1xl font-bold cursor-pointer rounded-lg overflow-hidden' action='/api/admin/sorted'>
                     <input
                         type="date"
@@ -308,7 +308,7 @@ const Bookings = () => {
 
                 {(fromDate && toDate) && (
                     <button
-                        className='border p-4 shadow-md rounded-xl bg-zinc-300 font-bold outline-none border-none'
+                        className='p-4 font-bold border border-none shadow-md outline-none rounded-xl bg-zinc-300'
                         onClick={sortedResult}
                     >
                         Filter By Date

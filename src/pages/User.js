@@ -18,7 +18,7 @@ function User() {
         const formData = { name, email, password, role };
 
         try {
-            await axios.post('http://localhost:8000/api/admin/register', formData);
+            await axios.post('https://privatejetcharters-server-ttz1.onrender.com/api/admin/register', formData);
             setName('');
             setEmail('');
             setPassword('');
@@ -34,7 +34,7 @@ function User() {
 
     const getUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/admin/getalladmins');
+            const response = await axios.get('https://privatejetcharters-server-ttz1.onrender.com/api/admin/getalladmins');
             setUsers(response.data); 
         } catch (error) {
             setUsers(null);
@@ -49,7 +49,7 @@ function User() {
         if (deleteUserId) {
             const deleteUser = async () => {
                 try {
-                    await axios.delete(`http://localhost:8000/api/admin/deleteadmin/${deleteUserId}`);
+                    await axios.delete(`https://privatejetcharters-server-ttz1.onrender.com/api/admin/deleteadmin/${deleteUserId}`);
                     getUsers();
                 } catch (error) {
                     console.error('Error deleting user:', error);
@@ -71,7 +71,7 @@ function User() {
                     const formData = { name, email, password, role };
 
                     try {
-                        await axios.put(`http://localhost:8000/api/admin/updateuserrolebyid/${updateUserId}`, formData);
+                        await axios.put(`https://privatejetcharters-server-ttz1.onrender.com/api/admin/updateuserrolebyid/${updateUserId}`, formData);
                         getUsers();
                     } catch (error) {
                         console.error('Error updating user:', error);
@@ -88,7 +88,7 @@ function User() {
 
     return (
         <div>
-            <div className='flex items-center flex-wrap gap-5 justify-between px-10'>
+            <div className='flex flex-wrap items-center justify-between gap-5 px-10'>
                 <div>
                     <h1 className='text-[1.5rem]'>
                         Welcome to the Super Admin Panel

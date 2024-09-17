@@ -10,7 +10,7 @@ const Logs = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/admin/getalllogs"
+          "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getalllogs"
         );
         setLogs(response.data.data);
         setLoading(false);
