@@ -42,7 +42,7 @@ const Logs = () => {
               <td className="p-2 break-words whitespace-normal border border-slate-700">
                 {item.log}
               </td> */}
-              <td className="p-2 border border-slate-700">1</td>
+              <td className="p-2 border border-slate-700">{index}</td>
               <td className="flex flex-wrap p-2 border border-slate-700">{item.log}</td>
             </tr>
           ))}

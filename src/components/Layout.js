@@ -76,6 +76,18 @@ const Layout = ({ children }) => {
                 </Link>
               </li>
 
+
+
+              <li className={`${localStorage.getItem('role') == 'super-admin' ? 'flex' : 'hidden'}`}>
+                <Link
+                  to={"/logs"}
+                  className="px-4 py-2 w-[100%] hover:bg-gray-500 hover:text-white flex items-center ransition-all duration-300 ease-in-out"
+                >
+                  <FaUsersGear className="m-2" />
+                  Website Logs
+                </Link>
+              </li>
+
             </ul>
           </nav>
         </aside>
