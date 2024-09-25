@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { UploadOutlined } from "@ant-design/icons";
-import { Spin, Card, Button, Upload, message, Modal, Form, Input } from "antd";
+import { UploadOutlined, EllipsisOutlined } from "@ant-design/icons";
+import { Spin, Card, Button, Upload, message, Modal, Form, Input, Dropdown, Menu } from "antd";
 
 const Category = () => {
   const { section } = useParams();
@@ -10,6 +10,7 @@ const Category = () => {
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null); // To store the category being edited
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -31,7 +32,15 @@ const Category = () => {
     fetchCategories();
   }, [section]);
 
-  const showModal = () => {
+  const showModal = (category = null) => {
+    setEditingCategory(category);
+    if (category) {
+      form.setFieldsValue({
+        section: category.section,
+        chartertype: category.chartertype,
+        description: category.description,
+      });
+    }
     setIsModalVisible(true);
   };
 
@@ -51,19 +60,22 @@ const Category = () => {
         formData.append("image", file);
       }
 
-      const response = await axios.post(
-        "http://localhost:8000/api/admin/addmodifycategory",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+      const apiEndpoint = editingCategory
+        ? `http://localhost:8000/api/admin/editmodifycharterbyid/${editingCategory._id}`
+        : "http://localhost:8000/api/admin/addmodifycategory";
+
+      const response = await axios.post(apiEndpoint, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      message.success(editingCategory ? "Category updated successfully" : "Category added successfully");
+
+      setCategories(editingCategory 
+        ? categories.map((cat) => (cat._id === editingCategory._id ? response.data.data : cat)) 
+        : [...categories, response.data.data]
       );
-
-      message.success("Category added successfully");
-
-      setCategories([...categories, response.data.data]);
       form.resetFields();
       setFile(null);
       setIsModalVisible(false);
@@ -72,7 +84,7 @@ const Category = () => {
       window.location.reload();
     } catch (err) {
       console.error("Error:", err);
-      message.error("Failed to add category. Please try again.");
+      message.error("Failed to add/update category. Please try again.");
     }
   };
 
@@ -82,9 +94,33 @@ const Category = () => {
     setFile(null);
   };
 
+  const handleDelete = async (categoryId) => {
+    try {
+      await axios.delete(
+        `http://localhost:8000/api/admin/deletemodifycharterbyid/${categoryId}`
+      );
+      setCategories(categories.filter((category) => category._id !== categoryId));
+      message.success("Category deleted successfully");
+    } catch (err) {
+      console.error("Error deleting category:", err);
+      message.error("Failed to delete category. Please try again.");
+    }
+  };
+
   const handleExploreMore = (categoryType) => {
     navigate(`/explore/${section}/${categoryType}`);
   };
+
+  const menu = (category) => (
+    <Menu>
+      <Menu.Item key="edit" onClick={() => showModal(category)}>
+        Edit
+      </Menu.Item>
+      <Menu.Item key="delete" onClick={() => handleDelete(category._id)}>
+        Delete
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <div className="p-6">
@@ -92,7 +128,7 @@ const Category = () => {
         <h1 className="mb-4 text-2xl font-bold">{section} Categories</h1>
         <button
           className={` ${localStorage.getItem('role') == 'user-admin' ? 'hidden' : 'flex'} bg-sky-700 text-white p-2 rounded-lg`}
-          onClick={showModal}
+          onClick={() => showModal()}
         >
           Add Category
         </button>
@@ -120,6 +156,11 @@ const Category = () => {
                     Explore More
                   </Button>,
                 ]}
+                extra={
+                  <Dropdown overlay={menu(category)} trigger={['click']}>
+                    <EllipsisOutlined style={{ fontSize: '24px' }} />
+                  </Dropdown>
+                }
               >
                 <Card.Meta
                   title={category?.chartertype || "No Title"}
@@ -133,7 +174,7 @@ const Category = () => {
         </div>
       )}
       <Modal
-        title="Add Category"
+        title={editingCategory ? "Edit Category" : "Add Category"}
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -167,7 +208,7 @@ const Category = () => {
           <Form.Item
             label="Upload Image"
             name="image"
-            rules={[{ required: true, message: "Please upload an image" }]}
+            rules={[{ required: !editingCategory, message: "Please upload an image" }]}
           >
             <Upload
               customRequest={handleFileChange}

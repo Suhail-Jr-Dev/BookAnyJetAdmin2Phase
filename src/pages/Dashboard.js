@@ -86,7 +86,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       await axios.put(
-        `http://localhost:8000/api/admin/updatesection/${editingCategory._id}`,
+        `http://localhost:8000/api/admin/updatetype/${editingCategory._id}`,
         values
       );
       message.success("Section updated successfully");
