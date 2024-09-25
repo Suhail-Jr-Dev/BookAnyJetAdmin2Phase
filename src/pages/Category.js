@@ -61,8 +61,8 @@ const Category = () => {
       }
 
       const apiEndpoint = editingCategory
-        ? `https://privatejetcharters-server-ttz1.onrender.com/api/admin/editmodifycharterbyid/${editingCategory._id}`
-        : "https://privatejetcharters-server-ttz1.onrender.com/api/admin/addmodifycategory";
+        ? `http://localhost:8000/api/admin/editmodifycharterbyid/${editingCategory._id}`
+        : "http://localhost:8000/api/admin/addmodifycategory";
 
       const response = await axios.post(apiEndpoint, formData, {
         headers: {
@@ -97,7 +97,7 @@ const Category = () => {
   const handleDelete = async (categoryId) => {
     try {
       await axios.delete(
-        `https://privatejetcharters-server-ttz1.onrender.com/api/admin/deletemodifycharterbyid/${categoryId}`
+        `http://localhost:8000/api/admin/deletemodifycharterbyid/${categoryId}`
       );
       setCategories(categories.filter((category) => category._id !== categoryId));
       message.success("Category deleted successfully");
