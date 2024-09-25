@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import moment from "moment";
 import { useNavigate, useParams } from "react-router-dom";
 import { UploadOutlined } from "@ant-design/icons";
 import {
@@ -69,12 +70,15 @@ const Category = () => {
       formData.append("departure", values.departure);
       formData.append("arrival", values.arrival);
       formData.append("journeytype", values.journeytype);
-      formData.append("date", values.date);
+      const formattedDate = values.date
+        ? moment(values.date).format("YYYY-MM-DD")
+        : null;
+      formData.append("date", formattedDate);
       formData.append("yom", values.yom);
       formData.append("seats", values.seats);
       formData.append("crew", values.crew);
       formData.append("airhosts", values.airhosts);
-      formData.append("levatory", values.levatory);
+      formData.append("lavatory", values.lavatory);
       formData.append("fromtime", values.fromtime);
       formData.append("endtime", values.endtime);
       formData.append("flyingrange", values.flyingrange);
@@ -253,22 +257,6 @@ const Category = () => {
           </Form.Item>
 
           <Form.Item
-            name="speed"
-            label="Speed"
-            rules={[{ required: true, message: "Please input the speed!" }]}
-          >
-            <Input placeholder="Enter speed" />
-          </Form.Item>
-
-          <Form.Item
-            name="price"
-            label="Price"
-            rules={[{ required: true, message: "Please input the price!" }]}
-          >
-            <Input placeholder="Enter price" />
-          </Form.Item>
-
-          <Form.Item
             name="availability"
             label="Availability"
             rules={[{ required: true, message: "Please select availability!" }]}
@@ -277,16 +265,6 @@ const Category = () => {
               <Select.Option value="yes">Yes</Select.Option>
               <Select.Option value="no">No</Select.Option>
             </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="bookingtype"
-            label="Booking Type"
-            rules={[
-              { required: true, message: "Please input the booking type!" },
-            ]}
-          >
-            <Input placeholder="Enter booking type" />
           </Form.Item>
 
           <Form.Item
@@ -328,182 +306,6 @@ const Category = () => {
           </Form.Item>
 
           <Form.Item
-            name="yom"
-            label="Year of Manufacture (YOM)"
-            rules={[{ required: true, message: "Please input the YOM!" }]}
-          >
-            <Input placeholder="Enter year of manufacture" />
-          </Form.Item>
-
-          <Form.Item
-            name="seats"
-            label="Seats"
-            rules={[{ required: true, message: "Please input the seats!" }]}
-          >
-            <Input placeholder="Enter seats" />
-          </Form.Item>
-
-          <Form.Item
-            name="crew"
-            label="Crew"
-            rules={[{ required: true, message: "Please input the crew!" }]}
-          >
-            <Input placeholder="Enter crew" />
-          </Form.Item>
-
-          <Form.Item
-            name="airhosts"
-            label="Air Hosts"
-            rules={[{ required: true, message: "Please input the air hosts!" }]}
-          >
-            <Input placeholder="Enter air hosts" />
-          </Form.Item>
-
-          <Form.Item
-            name="levatory"
-            label="levatory"
-            rules={[{ required: true, message: "Please input the lavatory!" }]}
-          >
-            <Input placeholder="Enter lavatory" />
-          </Form.Item>
-
-          <Form.Item
-            name="fromtime"
-            label="From Time"
-            rules={[{ required: true, message: "Please input the from time!" }]}
-          >
-            <Input placeholder="Enter from time" />
-          </Form.Item>
-
-          <Form.Item
-            name="endtime"
-            label="End Time"
-            rules={[{ required: true, message: "Please input the end time!" }]}
-          >
-            <Input placeholder="Enter end time" />
-          </Form.Item>
-
-          <Form.Item
-            name="flyingrange"
-            label="Flying Range"
-            rules={[
-              { required: true, message: "Please input the flying range!" },
-            ]}
-          >
-            <Input placeholder="Enter flying range" />
-          </Form.Item>
-
-          <Form.Item
-            name="cabinwidth"
-            label="Cabin Width"
-            rules={[
-              { required: true, message: "Please input the cabin width!" },
-            ]}
-          >
-            <Input placeholder="Enter cabin width" />
-          </Form.Item>
-
-          <Form.Item
-            name="cabinheight"
-            label="Cabin Height"
-            rules={[
-              { required: true, message: "Please input the cabin height!" },
-            ]}
-          >
-            <Input placeholder="Enter cabin height" />
-          </Form.Item>
-
-          <Form.Item
-            name="baggage"
-            label="Baggage"
-            rules={[{ required: true, message: "Please input the baggage!" }]}
-          >
-            <Input placeholder="Enter baggage" />
-          </Form.Item>
-
-          <Form.Item
-            name="cabinlength"
-            label="Cabin Length"
-            rules={[
-              { required: true, message: "Please input the cabin length!" },
-            ]}
-          >
-            <Input placeholder="Enter cabin length" />
-          </Form.Item>
-
-          <Form.Item
-            name="pilot"
-            label="Pilot"
-            rules={[{ required: true, message: "Please input the pilot!" }]}
-          >
-            <Input placeholder="Enter pilot" />
-          </Form.Item>
-
-          <Form.Item
-            name="discount"
-            label="Discount"
-            rules={[{ required: true, message: "Please input the discount!" }]}
-          >
-            <Input placeholder="Enter discount" />
-          </Form.Item>
-
-          <Form.Item
-            name="discountprice"
-            label="Discount Price"
-            rules={[
-              { required: true, message: "Please input the discount price!" },
-            ]}
-          >
-            <Input placeholder="Enter discount price" />
-          </Form.Item>
-
-          <Form.Item
-            name="duration"
-            label="Duration"
-            rules={[{ required: true, message: "Please input the duration!" }]}
-          >
-            <Input placeholder="Enter duration" />
-          </Form.Item>
-
-          <Form.Item
-            name="reachdate"
-            label="Reach Date"
-            rules={[
-              { required: true, message: "Please input the reach date!" },
-            ]}
-          >
-            <Input placeholder="Enter reach date" />
-          </Form.Item>
-
-          <Form.Item
-            name="yor"
-            label="Year of Registration (YOR)"
-            rules={[{ required: true, message: "Please input the YOR!" }]}
-          >
-            <Input placeholder="Enter year of registration" />
-          </Form.Item>
-
-          <Form.Item
-            name="targetprice"
-            label="Target Price"
-            rules={[
-              { required: true, message: "Please input the target price!" },
-            ]}
-          >
-            <Input placeholder="Enter target price" />
-          </Form.Item>
-
-          <Form.Item
-            name="brokercompany"
-            label="Broker Company"
-            rules={[
-              { required: true, message: "Please input the broker company!" },
-            ]}
-          >
-            <Input placeholder="Enter broker company" />
-          </Form.Item>
-
-          <Form.Item
             name="flexibility"
             label="Flexibility"
             rules={[{ required: true, message: "Please select flexibility!" }]}
@@ -515,10 +317,206 @@ const Category = () => {
           </Form.Item>
 
           <Form.Item
+            name="speed"
+            label="Speed"
+            rules={[{ required: false, message: "Please input the speed!" }]}
+          >
+            <Input placeholder="Enter speed" />
+          </Form.Item>
+
+          <Form.Item
+            name="price"
+            label="Price"
+            rules={[{ required: false, message: "Please input the price!" }]}
+          >
+            <Input placeholder="Enter price" />
+          </Form.Item>
+
+          <Form.Item
+            name="yom"
+            label="Year of Manufacture (YOM)"
+            rules={[{ required: false, message: "Please input the YOM!" }]}
+          >
+            <Input placeholder="Enter year of manufacture" />
+          </Form.Item>
+
+          <Form.Item
+            name="seats"
+            label="Seats"
+            rules={[{ required: false, message: "Please input the seats!" }]}
+          >
+            <Input placeholder="Enter seats" />
+          </Form.Item>
+
+          <Form.Item
+            name="crew"
+            label="Crew"
+            rules={[{ required: false, message: "Please input the crew!" }]}
+          >
+            <Input placeholder="Enter crew" />
+          </Form.Item>
+
+          <Form.Item
+            name="airhosts"
+            label="Air Hosts"
+            rules={[
+              { required: false, message: "Please input the air hosts!" },
+            ]}
+          >
+            <Input placeholder="Enter air hosts" />
+          </Form.Item>
+
+          <Form.Item
+            name="lavatory"
+            label="lavatory"
+            rules={[{ required: false, message: "Please input the lavatory!" }]}
+          >
+            <Input placeholder="Enter lavatory" />
+          </Form.Item>
+
+          <Form.Item
+            name="fromtime"
+            label="From Time"
+            rules={[
+              { required: false, message: "Please input the from time!" },
+            ]}
+          >
+            <Input placeholder="Enter from time" />
+          </Form.Item>
+
+          <Form.Item
+            name="endtime"
+            label="End Time"
+            rules={[{ required: false, message: "Please input the end time!" }]}
+          >
+            <Input placeholder="Enter end time" />
+          </Form.Item>
+
+          <Form.Item
+            name="flyingrange"
+            label="Flying Range"
+            rules={[
+              { required: false, message: "Please input the flying range!" },
+            ]}
+          >
+            <Input placeholder="Enter flying range" />
+          </Form.Item>
+
+          <Form.Item
+            name="cabinwidth"
+            label="Cabin Width"
+            rules={[
+              { required: false, message: "Please input the cabin width!" },
+            ]}
+          >
+            <Input placeholder="Enter cabin width" />
+          </Form.Item>
+
+          <Form.Item
+            name="cabinheight"
+            label="Cabin Height"
+            rules={[
+              { required: false, message: "Please input the cabin height!" },
+            ]}
+          >
+            <Input placeholder="Enter cabin height" />
+          </Form.Item>
+
+          <Form.Item
+            name="baggage"
+            label="Baggage"
+            rules={[{ required: false, message: "Please input the baggage!" }]}
+          >
+            <Input placeholder="Enter baggage" />
+          </Form.Item>
+
+          <Form.Item
+            name="cabinlength"
+            label="Cabin Length"
+            rules={[
+              { required: false, message: "Please input the cabin length!" },
+            ]}
+          >
+            <Input placeholder="Enter cabin length" />
+          </Form.Item>
+
+          <Form.Item
+            name="pilot"
+            label="Pilot"
+            rules={[{ required: false, message: "Please input the pilot!" }]}
+          >
+            <Input placeholder="Enter pilot" />
+          </Form.Item>
+
+          <Form.Item
+            name="discount"
+            label="Discount"
+            rules={[{ required: false, message: "Please input the discount!" }]}
+          >
+            <Input placeholder="Enter discount" />
+          </Form.Item>
+
+          <Form.Item
+            name="discountprice"
+            label="Discount Price"
+            rules={[
+              { required: false, message: "Please input the discount price!" },
+            ]}
+          >
+            <Input placeholder="Enter discount price" />
+          </Form.Item>
+
+          <Form.Item
+            name="duration"
+            label="Duration"
+            rules={[{ required: false, message: "Please input the duration!" }]}
+          >
+            <Input placeholder="Enter duration" />
+          </Form.Item>
+
+          <Form.Item
+            name="reachdate"
+            label="Reach Date"
+            rules={[
+              { required: false, message: "Please input the reach date!" },
+            ]}
+          >
+            <Input placeholder="Enter reach date" />
+          </Form.Item>
+
+          <Form.Item
+            name="yor"
+            label="Year of Registration (YOR)"
+            rules={[{ required: false, message: "Please input the YOR!" }]}
+          >
+            <Input placeholder="Enter year of registration" />
+          </Form.Item>
+
+          <Form.Item
+            name="targetprice"
+            label="Target Price"
+            rules={[
+              { required: false, message: "Please input the target price!" },
+            ]}
+          >
+            <Input placeholder="Enter target price" />
+          </Form.Item>
+
+          <Form.Item
+            name="brokercompany"
+            label="Broker Company"
+            rules={[
+              { required: false, message: "Please input the broker company!" },
+            ]}
+          >
+            <Input placeholder="Enter broker company" />
+          </Form.Item>
+
+          <Form.Item
             name="operatorname"
             label="Operator Name"
             rules={[
-              { required: true, message: "Please input the operator name!" },
+              { required: false, message: "Please input the operator name!" },
             ]}
           >
             <Input placeholder="Enter operator name" />
@@ -528,7 +526,7 @@ const Category = () => {
             name="operatoremail"
             label="Operator Email"
             rules={[
-              { required: true, message: "Please input a valid email!" },
+              { required: false, message: "Please input a valid email!" },
               { type: "email", message: "The input is not a valid email!" },
             ]}
           >
@@ -539,7 +537,10 @@ const Category = () => {
             name="operatorphone"
             label="Operator Phone"
             rules={[
-              { required: true, message: "Please input a valid phone number!" },
+              {
+                required: false,
+                message: "Please input a valid phone number!",
+              },
               {
                 pattern: /^\d{10}$/,
                 message: "Please input a 10-digit phone number!",
