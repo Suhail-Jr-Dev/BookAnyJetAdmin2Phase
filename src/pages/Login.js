@@ -103,12 +103,12 @@ const Login = () => {
 
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-lg p-12 space-y-8 bg-gray-300 rounded-lg shadow-2xl transform transition duration-500 hover:scale-105">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="w-full max-w-lg p-12 space-y-8  rounded-lg shadow-2xl transform transition duration-500 hover:scale-105">
         <h1 className="text-3xl font-bold text-center text-blue-800">Welcome Back!</h1>
 
 
-        <form class="max-w-sm mx-auto w-[100%] bg-gray-300 p-5 rounded-lg" onSubmit={onFinish} >
+        <form class="max-w-sm mx-auto w-[100%] p-5 rounded-lg" onSubmit={onFinish} >
 
           <div class="mb-5">
             <label for="email" class="block mb-2 text-sm font-medium  dark:text-black"> Email</label>
