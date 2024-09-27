@@ -27,7 +27,7 @@ const Logs = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="text-center">
+    <div className="w-[300px] h-full">
       <table className="w-4/5 mx-auto border border-collapse table-auto border-slate-500">
         <thead>
           <tr>
@@ -42,8 +42,10 @@ const Logs = () => {
               <td className="p-2 break-words whitespace-normal border border-slate-700">
                 {item.log}
               </td> */}
-              <td className="p-2 border border-slate-700">{index}</td>
-              <td className="flex flex-wrap p-2 border border-slate-700">{item.log}</td>
+              <td className="p-2 border border-slate-700">{index + 1}</td>
+              <td className="p-2 border border-slate-700 w-[300px] break-words whitespace-normal">
+                {item.log}
+              </td>
             </tr>
           ))}
         </tbody>

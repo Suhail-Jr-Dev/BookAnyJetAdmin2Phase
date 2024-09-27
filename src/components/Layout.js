@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { AiOutlineBook } from 'react-icons/ai';
 import { MdDashboard } from "react-icons/md";
 import { MdOutlineCategory } from "react-icons/md";
 import { FaAngleDoubleDown } from "react-icons/fa";
 import { message } from "antd";
-
+import { FaUsers } from 'react-icons/fa';
+import { MdQuestionAnswer } from 'react-icons/md';
 import { FaUsersGear } from "react-icons/fa6";
-
+import { BiClipboard } from 'react-icons/bi';
 const Layout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,7 +73,7 @@ const Layout = ({ children }) => {
                   to={"/users"}
                   className="px-4 py-2 w-[100%] hover:bg-gray-500 hover:text-white flex items-center ransition-all duration-300 ease-in-out"
                 >
-                  <FaUsersGear className="m-2" />
+                  <FaUsers className="m-2" />
                   Users
                 </Link>
               </li>
@@ -83,10 +85,39 @@ const Layout = ({ children }) => {
                   to={"/logs"}
                   className="px-4 py-2 w-[100%] hover:bg-gray-500 hover:text-white flex items-center ransition-all duration-300 ease-in-out"
                 >
-                  <FaUsersGear className="m-2" />
+                  <BiClipboard className="m-2" />
                   Website Logs
                 </Link>
               </li>
+
+
+
+
+              <li className={`${localStorage.getItem('role') == 'super-admin' ? 'flex' : 'hidden'}`}>
+                <Link
+                  to={"/enquiries"}
+                  className="px-4 py-2 w-[100%] hover:bg-gray-500 hover:text-white flex items-center ransition-all duration-300 ease-in-out"
+                >
+                  <MdQuestionAnswer  className="m-2" />
+                 Enquiries
+                </Link>
+              </li>
+
+
+              <li className={`${localStorage.getItem('role') == 'super-admin' ? 'flex' : 'hidden'}`}>
+                <Link
+                  to={"/bookings"}
+                  className="px-4 py-2 w-[100%] hover:bg-gray-500 hover:text-white flex items-center ransition-all duration-300 ease-in-out"
+                >
+                  <AiOutlineBook className="m-2" />
+                 Bookings
+                </Link>
+              </li>
+
+
+
+
+
 
             </ul>
           </nav>
