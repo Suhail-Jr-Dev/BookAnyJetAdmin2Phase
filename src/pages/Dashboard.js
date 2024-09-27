@@ -27,7 +27,7 @@ const Dashboard = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getalltypes"
+          "http://localhost:8000/api/admin/getalltypes"
         );
         setSectionData(response.data.data);
       } catch (err) {
@@ -67,10 +67,10 @@ const Dashboard = () => {
   const handleAddCategory = async (values) => {
     try {
       setLoading(true);
-      await axios.post("https://privatejetcharters-server-ttz1.onrender.com/api/admin/addsections", values);
+      await axios.post("http://localhost:8000/api/admin/addsections", values);
       message.success("Section added successfully");
       const response = await axios.get(
-        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getalltypes"
+        "http://localhost:8000/api/admin/getalltypes"
       );
       setSectionData(response.data.data);
       handleCloseAddModal();
@@ -86,12 +86,12 @@ const Dashboard = () => {
     try {
       setLoading(true);
       await axios.put(
-        `https://privatejetcharters-server-ttz1.onrender.com/api/admin/updatesection/${editingCategory._id}`,
+        `http://localhost:8000/api/admin/updatetype/${editingCategory._id}`,
         values
       );
       message.success("Section updated successfully");
       const response = await axios.get(
-        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getalltypes"
+        "http://localhost:8000/api/admin/getalltypes"
       );
       setSectionData(response.data.data);
       handleCloseEditModal();
@@ -106,10 +106,10 @@ const Dashboard = () => {
   const handleDelete = async (id) => {
     try {
       setLoading(true);
-      await axios.delete(`https://privatejetcharters-server-ttz1.onrender.com/api/admin/deletetype/${id}`);
+      await axios.delete(`http://localhost:8000/api/admin/deletetype/${id}`);
       message.success("Section deleted successfully");
       const response = await axios.get(
-        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getalltypes"
+        "http://localhost:8000/api/admin/getalltypes"
       );
       setSectionData(response.data.data);
     } catch (err) {
@@ -180,7 +180,7 @@ const Dashboard = () => {
                 <Dropdown
                   overlay={
                     <Menu onClick={({ key }) => handleMenuClick(key, category)}>
-                      {/* <Menu.Item key="edit">Edit</Menu.Item> */}
+                      <Menu.Item key="edit">Edit</Menu.Item>
                       <Menu.Item key="delete">Delete</Menu.Item>
                     </Menu>
                   }

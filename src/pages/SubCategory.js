@@ -30,7 +30,7 @@ const Category = () => {
       try {
         setLoading(true);
         const response = await axios.post(
-          `https://privatejetcharters-server-ttz1.onrender.com/api/admin/filterbytypeandcategory/${section}/${category}`
+          `http://localhost:8000/api/admin/filterbytypeandcategory/${section}/${category}`
         );
         console.log(category);
         setCategories(response.data.data);
@@ -105,7 +105,7 @@ const Category = () => {
 
       // Make the API request to add the subcategory
       const response = await axios.post(
-        "https://privatejetcharters-server-ttz1.onrender.com/api/admin/addsubcategory",
+        "http://localhost:8000/api/admin/addsubcategory",
         formData,
         {
           headers: {
