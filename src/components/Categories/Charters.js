@@ -14,7 +14,7 @@ const Charters = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/admin/getalltypes"
+          "https://privatejetcharters-server-ttz1.onrender.com/api/admin/getalltypes"
         );
         setType(response.data.data); // Extract the data array from the response
         console.log(response.data.data);
@@ -57,7 +57,7 @@ const Charters = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between">
-        <h1 className="text-2xl font-bold mb-8">Charter Details</h1>
+        <h1 className="mb-8 text-2xl font-bold">Charter Details</h1>
         <Button
           type="primary"
           onClick={showModal}
@@ -68,15 +68,15 @@ const Charters = () => {
       </div>
 
       {/* Charter Bookings Card */}
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+      <div className="overflow-hidden transition-transform transform bg-white rounded-lg shadow-lg hover:scale-105">
         <div className="p-6">
-          <h2 className="text-xl font-semibold mb-2">Charter Bookings</h2>
+          <h2 className="mb-2 text-xl font-semibold">Charter Bookings</h2>
           <p className="text-gray-600">
             Manage and view all your charter bookings here.
           </p>
           <div className="flex justify-start">
             <button
-              className="text-white bg-blue-800 p-2 rounded-md mt-4"
+              className="p-2 mt-4 text-white bg-blue-800 rounded-md"
               onClick={handleBookings}
             >
               Explore more
@@ -91,16 +91,16 @@ const Charters = () => {
         {type.map((elem, index) => (
           <div
             key={index}
-            className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105"
+            className="overflow-hidden transition-transform transform bg-white rounded-lg shadow-lg hover:scale-105"
           >
             <div className="p-6">
-              <h2 className="text-xl font-semibold mb-2">{elem.section}</h2>
+              <h2 className="mb-2 text-xl font-semibold">{elem.section}</h2>
               <p className="text-gray-600">
                 Manage and view all your {elem.section} details here.
               </p>
               <div className="flex justify-start">
                 <button
-                  className="text-white bg-blue-800 p-2 rounded-md mt-4"
+                  className="p-2 mt-4 text-white bg-blue-800 rounded-md"
                   onClick={handleCategory}
                 >
                   Explore more

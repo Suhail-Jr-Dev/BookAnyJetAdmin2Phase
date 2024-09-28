@@ -56,7 +56,7 @@ const Login = () => {
     try {
 
       if (formData.role.length > 0) {
-        let Response = await axios.post('http://localhost:8000/api/admin/login', formData);
+        let Response = await axios.post('https://privatejetcharters-server-ttz1.onrender.com/api/admin/login', formData);
         return (Response)
       }
       else {
@@ -103,8 +103,8 @@ const Login = () => {
 
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-lg p-12 space-y-8  rounded-lg shadow-2xl transform transition duration-500 hover:scale-105">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-lg p-12 space-y-8 transition duration-500 transform rounded-lg shadow-2xl hover:scale-105">
         <h1 className="text-3xl font-bold text-center text-blue-800">Welcome Back!</h1>
 
 
@@ -170,7 +170,7 @@ const Login = () => {
             </button>
             <div className='flex gap-2'>
               <h3>Dont have an account ?</h3>
-              <Link className='text-blue-600 font-semibold hover:underline' to={"/register"}>Register here</Link>
+              <Link className='font-semibold text-blue-600 hover:underline' to={"/register"}>Register here</Link>
             </div>
           </div>
         </Form> */}

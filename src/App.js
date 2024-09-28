@@ -13,9 +13,9 @@ import RegisterForm from './components/Categories/RegisterForm';
 import { PrivateRoute } from './ProtectedRoute'
 import ChCategory from './components/Categories/ChCategory';
 import Category from './pages/Category';
-import User from './pages/User';
+import Logs from './components/Categories/Logs';import User from './pages/User';
 import SubCategory from './pages/SubCategory';
-
+import Enquiries from './components/Categories/Enquiries'
 function App() {
   return (
     <Router>
@@ -46,7 +46,10 @@ const AppContent = () => {
             <Charters />
           </PrivateRoute>
         }
-        />
+        /> 
+         <Route path="/logs" element={<Logs/>}/>
+         <Route path="/enquiries" element={<Enquiries/>}/>
+         <Route path="/bookings" element={<Bookings/>}/>
 
         <Route path="/users" element={
           <PrivateRoute>

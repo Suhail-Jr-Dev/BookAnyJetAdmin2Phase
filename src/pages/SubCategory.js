@@ -185,7 +185,7 @@ const Category = () => {
       <div className="flex justify-between mb-2">
         <h1 className="mb-4 text-2xl font-bold">{section} Categories</h1>
         <button
-          className="bg-sky-700 text-white p-2 rounded-lg"
+          className="p-2 text-white rounded-lg bg-sky-700"
           onClick={showModal}
         >
           Add Sub-Category
@@ -196,7 +196,7 @@ const Category = () => {
           <Spin size="large" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {categories.map((category, index) => (
             <div key={category?._id ?? index} className="p-4">
               <Card

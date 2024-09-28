@@ -4,23 +4,32 @@ import React, { useEffect, useState } from 'react';
 import UserCards from '../components/UserCards';
 
 function User() {
-
     const [formOpener, setFormOpener] = useState(false);
-    const formOpenerFun = () => setFormOpener(prev => !prev);
+    const [changeForm, setChangeForm] = useState(false); // default to false for "Add User"
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('broker');
-    const [changeForm, setChangeForm] = useState('');
 
+    const formOpenerFun = () => {
+        setFormOpener((prev) => !prev);
+
+        // Reset fields only if we're adding a new user (not updating an existing user)
+        if (!changeForm) {
+            setName('');
+            setEmail('');
+            setPassword('');
+            setRole('broker');
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = { name, email, password, role };
 
         try {
-            await axios.post('http://localhost:8000/api/admin/register', formData);
+            await axios.post('https://privatejetcharters-server-ttz1.onrender.com/api/admin/register', formData);
             setName('');
             setEmail('');
             setPassword('');
@@ -36,7 +45,7 @@ function User() {
 
     const getUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/admin/getalladmins');
+            const response = await axios.get('https://privatejetcharters-server-ttz1.onrender.com/api/admin/getalladmins');
             setUsers(response.data);
         } catch (error) {
             setUsers(null);
@@ -51,7 +60,7 @@ function User() {
         if (deleteUserId) {
             const deleteUser = async () => {
                 try {
-                    await axios.delete(`http://localhost:8000/api/admin/deleteadmin/${deleteUserId}`);
+                    await axios.delete(`https://privatejetcharters-server-ttz1.onrender.com/api/admin/deleteadmin/${deleteUserId}`);
                     getUsers();
                 } catch (error) {
                     console.error('Error deleting user:', error);
@@ -61,44 +70,35 @@ function User() {
         }
     }, [deleteUserId]);
 
-
     useEffect(() => {
-        let temp = async () => {
+        const temp = async () => {
             if (users) {
-                console.log('it is working')
                 const response = await users.data.filter((e) => e._id === updateUserId);
-                setName(response[0]?.name)
-                setEmail(response[0]?.email)
+                setName(response[0]?.name);
+                setEmail(response[0]?.email);
             }
-        }
-        temp()
-    }, [updateUserId])
-
+        };
+        temp();
+    }, [updateUserId]);
 
     const updateUser = async (e) => {
         e.preventDefault();
         if (updateUserId && users) {
-
-
-
             const formData = { name, email, password, role };
 
             try {
-                await axios.put(`http://localhost:8000/api/admin/updateuserrolebyid/${updateUserId}`, formData);
+                await axios.put(`https://privatejetcharters-server-ttz1.onrender.com/api/admin/updateuserrolebyid/${updateUserId}`, formData);
                 setName('');
                 setEmail('');
                 setPassword('');
                 setFormOpener(false);
                 getUsers();
-                message.success('updated Successfully !!!')
+                message.success('Updated Successfully !!!');
             } catch (error) {
                 console.error('Error updating user:', error);
             }
-
         }
     };
-
-
 
     useEffect(() => {
         getUsers();
@@ -106,25 +106,26 @@ function User() {
 
     return (
         <div>
-            <div className='flex items-center flex-wrap gap-5 justify-between px-10'>
+            <div className='flex flex-wrap items-center justify-between gap-5 px-10'>
                 <div>
-                    <h1 className='text-[1.5rem]'>
-                        Welcome to the Super Admin Panel
-                    </h1>
-                    <p>
-                        Handle All the User Role's here
-                    </p>
+                    <h1 className='text-[1.5rem]'>Welcome to the Super Admin Panel</h1>
+                    <p>Handle All the User Roles here</p>
                 </div>
-                <button className='bg-blue-600 text-[1.1rem] font-semibold w-[8rem] text-white h-[2.5rem] rounded-lg' onClick={() => {
-                    formOpenerFun()
-                    setChangeForm(false);
-                }}>
+                <button
+                    className='bg-blue-600 text-[1.1rem] font-semibold w-[8rem] text-white h-[2.5rem] rounded-lg'
+                    onClick={() => {
+                        formOpenerFun();
+                        setChangeForm(false); // Reset to "Add User" mode
+                    }}
+                >
                     Add User
                 </button>
             </div>
 
-            <div className={`fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50 transition-all duration-1000 ${formOpener ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                <div className='bg-gray-400 p-5 rounded-lg max-w-sm w-full'>
+            <div
+                className={`fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50 transition-all duration-1000 ${formOpener ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+            >
+                <div className='w-full max-w-sm p-5 bg-gray-400 rounded-lg'>
                     <form className="w-full" onSubmit={changeForm ? updateUser : handleSubmit}>
                         <div className="mb-5">
                             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
@@ -173,7 +174,7 @@ function User() {
                                 <option value="user-admin">User Admin</option>
                             </select>
                         </div>
-                        <div className=' flex justify-around'>
+                        <div className='flex justify-around '>
                             <button
                                 type="submit"
                                 className="text-white my-4 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
@@ -181,7 +182,7 @@ function User() {
                                 {changeForm ? 'Update User' : 'Create new Role'}
                             </button>
                             <button
-                                type="button" 
+                                type="button"
                                 onClick={() => { formOpenerFun(); setChangeForm(false); }}
                                 className="text-white my-4 bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5"
                             >
@@ -191,8 +192,6 @@ function User() {
                     </form>
                 </div>
             </div>
-
-
 
             <div className='flex flex-wrap items-center justify-start gap-10 p-8 my-10'>
                 {users?.data?.map((data) => (
