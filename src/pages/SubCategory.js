@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import { useNavigate, useParams } from "react-router-dom";
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined, MoreOutlined } from "@ant-design/icons";
 import {
   Spin,
   Card,
@@ -14,6 +14,8 @@ import {
   Modal,
   Form,
   Input,
+  Dropdown,
+  Menu,
 } from "antd";
 
 const Category = () => {
@@ -22,6 +24,7 @@ const Category = () => {
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [user, setUser] = useState([]);
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -44,6 +47,22 @@ const Category = () => {
     fetchCategories();
   }, [section, category]);
 
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8000/api/admin/getalladmins"
+      );
+      console.log(res.data);
+      setUser(res.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -56,7 +75,6 @@ const Category = () => {
     try {
       const values = await form.validateFields();
 
-      // Creating FormData object to append all the required fields
       const formData = new FormData();
       formData.append("section", section);
       formData.append("chartertype", category);
@@ -71,7 +89,7 @@ const Category = () => {
       formData.append("arrival", values.arrival);
       formData.append("journeytype", values.journeytype);
       const formattedDate = values.date
-        ? moment(values.date).format("YYYY-MM-DD")
+        ? moment(values.date).format("DD-MM-YYYY")
         : null;
       formData.append("date", formattedDate);
       formData.append("yom", values.yom);
@@ -98,12 +116,12 @@ const Category = () => {
       formData.append("operatorname", values.operatorname);
       formData.append("operatoremail", values.operatoremail);
       formData.append("operatorphone", values.operatorphone);
+      formData.append("addedBy", values.addedBy);
 
       if (file) {
-        formData.append("image", file); // Append image file if available
+        formData.append("image", file);
       }
 
-      // Make the API request to add the subcategory
       const response = await axios.post(
         "http://localhost:8000/api/admin/addsubcategory",
         formData,
@@ -114,9 +132,10 @@ const Category = () => {
         }
       );
 
+      console.log(formData);
+
       message.success("Subcategory added successfully");
 
-      // Reset form and modal state
       form.resetFields();
       setFile(null);
       setIsModalVisible(false);
@@ -137,6 +156,29 @@ const Category = () => {
   const handleExploreMore = (categoryType) => {
     navigate(`/explore/${section}/${categoryType}`);
   };
+
+  const handleDelete = async (categoryId) => {
+    try {
+      await axios.delete(
+        `http://localhost:8000/api/admin/deletemodifysubcharterbyid/${categoryId}`
+      );
+      message.success("Subcategory deleted successfully");
+      setCategories((prevCategories) =>
+        prevCategories.filter((item) => item._id !== categoryId)
+      );
+    } catch (err) {
+      console.error("Error deleting subcategory:", err);
+      message.error("Failed to delete subcategory.");
+    }
+  };
+
+  const menu = (categoryId) => (
+    <Menu>
+      <Menu.Item key="delete" onClick={() => handleDelete(categoryId)}>
+        Delete
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <div className="p-6">
@@ -164,19 +206,33 @@ const Category = () => {
                     src={category?.image || ""}
                   />
                 }
-                actions={[
-                  <Button
-                    type="primary"
-                    onClick={() => handleExploreMore(category.chartertype)}
-                  >
-                    Explore More
-                  </Button>,
-                ]}
+                extra={
+                  <Dropdown overlay={menu(category._id)} trigger={["click"]}>
+                    <MoreOutlined
+                      style={{ fontSize: "20px", cursor: "pointer" }}
+                    />
+                  </Dropdown>
+                }
               >
                 <Card.Meta
                   title={category?.subCategoryName || "No Title"}
                   description={
-                    (category?.description?.substring(0, 100) || "") + "..."
+                    <>
+                      <p>
+                        {(category?.description?.substring(0, 100) || "") +
+                          "..."}
+                      </p>
+                      {/* Added by field */}
+                      <div
+                        style={{
+                          marginTop: "10px",
+                          fontStyle: "italic",
+                          color: "#888",
+                        }}
+                      >
+                        Added by: <strong>{category?.addedBy}</strong>
+                      </div>
+                    </>
                   }
                 />
               </Card>
@@ -184,6 +240,7 @@ const Category = () => {
           ))}
         </div>
       )}
+
       <Modal
         title="Add Sub-Category"
         visible={isModalVisible}
@@ -317,19 +374,37 @@ const Category = () => {
           </Form.Item>
 
           <Form.Item
+            name="price"
+            label="Price"
+            rules={[{ required: true, message: "Please input the price!" }]}
+          >
+            <Input placeholder="Enter price" />
+          </Form.Item>
+
+          <Form.Item
+            name="addedBy"
+            label="Added By"
+            rules={[{ required: true, message: "Please Choose your name" }]}
+          >
+            <Select>
+              {user && user.length > 0 ? (
+                user.map((elem) => (
+                  <Select.Option key={elem._id} value={elem.name}>
+                    {elem.name}
+                  </Select.Option>
+                ))
+              ) : (
+                <Select.Option disabled>Loading...</Select.Option>
+              )}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
             name="speed"
             label="Speed"
             rules={[{ required: false, message: "Please input the speed!" }]}
           >
             <Input placeholder="Enter speed" />
-          </Form.Item>
-
-          <Form.Item
-            name="price"
-            label="Price"
-            rules={[{ required: false, message: "Please input the price!" }]}
-          >
-            <Input placeholder="Enter price" />
           </Form.Item>
 
           <Form.Item

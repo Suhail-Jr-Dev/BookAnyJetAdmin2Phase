@@ -257,8 +257,8 @@ const Dashboard = () => {
             rules={[{ required: true, message: "Please select the status!" }]}
           >
             <Select>
-              <Select.Option value="Yes">Yes</Select.Option>
-              <Select.Option value="No">No</Select.Option>
+              <Select.Option value="yes">Yes</Select.Option>
+              <Select.Option value="no">No</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item>
