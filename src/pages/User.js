@@ -11,6 +11,7 @@ function User() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('broker');
+    const [getUpdateUser, setUpdateUser] = useState(false);
 
     const formOpenerFun = () => {
         setFormOpener((prev) => !prev);
@@ -75,11 +76,14 @@ function User() {
             if (users) {
                 const response = await users.data.filter((e) => e._id === updateUserId);
                 setName(response[0]?.name);
+                console.log(response[0]?.name)
+                console.log(response[0]?.email)
                 setEmail(response[0]?.email);
             }
+            setUpdateUser(false)
         };
         temp();
-    }, [updateUserId]);
+    }, [updateUserId, getUpdateUser]);
 
     const updateUser = async (e) => {
         e.preventDefault();
@@ -168,10 +172,10 @@ function User() {
                                 onChange={(e) => setRole(e.target.value)}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             >
+                                <option value="user-admin">User Admin</option>
                                 <option value="broker">Broker</option>
                                 <option value="operator">Operator</option>
                                 <option value="super-admin">Super Admin</option>
-                                <option value="user-admin">User Admin</option>
                             </select>
                         </div>
                         <div className='flex justify-around '>
@@ -195,7 +199,7 @@ function User() {
 
             <div className='flex flex-wrap items-center justify-start gap-10 p-8 my-10'>
                 {users?.data?.map((data) => (
-                    <UserCards key={data._id} props={{ ...data, setDeleteUserId, setUpdateUserId, setFormOpener, setChangeForm }} />
+                    <UserCards key={data._id} props={{ ...data, setDeleteUserId, setUpdateUser, setUpdateUserId, setFormOpener, setChangeForm }} />
                 ))}
             </div>
         </div>

@@ -3,39 +3,11 @@ import { Form, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import RegisterForm from '../components/Categories/RegisterForm';
+import { Spin } from 'antd'
 
 const Login = () => {
   const navigate = useNavigate();
-
-  const loginUserCall = async (payload) => {
-    // try {
-    //   const response = await axios.post("http://localhost:8000/api/admin/login", payload);
-    //   // console.log(response)
-    //   return response;
-    // } catch (err) {
-    //   return err;
-    // }
-    console.log(
-      payload
-    )
-
-
-    if (payload.email === 'suhail@gmail.com') {
-      console.log('hai')
-      localStorage.setItem('email', payload.email)
-      localStorage.setItem('password', payload.password)
-      return true
-    }
-    else {
-      localStorage.setItem('email', payload.email)
-      localStorage.setItem('password', payload.password)
-      return true
-    }
-
-
-  };
-
-
+  const [loading, setLoading] = useState(false);
 
   // Sending Login Payload 
 
@@ -54,9 +26,11 @@ const Login = () => {
     };
 
     try {
+      setLoading(true);
 
       if (formData.role.length > 0) {
         let Response = await axios.post('https://privatejetcharters-server-ttz1.onrender.com/api/admin/login', formData);
+        setLoading(false)
         return (Response)
       }
       else {
@@ -103,11 +77,14 @@ const Login = () => {
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center relative justify-center min-h-screen">
+      {
+        loading && <div className="z-40 bg-gray-300 inset-0 bg-opacity-40 flex items-center absolute justify-center">
+          <Spin size="large" />
+        </div>
+      }
       <div className="w-full max-w-lg p-12 space-y-8 transition duration-500 transform rounded-lg shadow-2xl hover:scale-105">
         <h1 className="text-3xl font-bold text-center text-blue-800">Welcome Back!</h1>
-
-
         <form class="max-w-sm mx-auto w-[100%] p-5 rounded-lg" onSubmit={onFinish} >
 
           <div class="mb-5">
@@ -134,7 +111,7 @@ const Login = () => {
 
 
 
-          <button type="submit" class="text-white my-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg border-none outline-none text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Log In </button>
+          <button type="submit" class="text-white my-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg border-none outline-none text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700">Log In </button>
         </form>
 
 
